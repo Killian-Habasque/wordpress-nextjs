@@ -43,6 +43,41 @@ export async function getPreviewPost(id, idType = "DATABASE_ID") {
   return data.post;
 }
 
+export async function getHeader(id, idType = "NAME") {
+  const data = await fetchAPI(
+    `
+    query GET_MENU_BY_NAME($id: ID!, $idType: MenuNodeIdTypeEnum!) {
+      menu(id: $id, idType: $idType) {
+        count
+        id
+        databaseId
+        name
+        slug
+        menuItems {
+          nodes {
+            id
+            databaseId
+            title
+            url
+            cssClasses
+            description
+            label
+            linkRelationship
+            target
+            parentId
+          }
+        }
+      }
+    }
+  `, {
+    variables: { id, idType },
+  },
+  );
+  return data?.menu;
+}
+
+
+
 export async function getAllPostsWithSlug() {
   const data = await fetchAPI(`
     {
@@ -154,9 +189,9 @@ export async function getPostAndMorePosts(slug, preview, previewData) {
         ...PostFields
         content
         ${
-          // Only some of the fields of a revision are considered as there are some inconsistencies
-          isRevision
-            ? `
+    // Only some of the fields of a revision are considered as there are some inconsistencies
+    isRevision
+      ? `
         revisions(first: 1, where: { orderby: { field: MODIFIED, order: DESC } }) {
           edges {
             node {
@@ -172,8 +207,8 @@ export async function getPostAndMorePosts(slug, preview, previewData) {
           }
         }
         `
-            : ""
-        }
+      : ""
+    }
       }
       posts(first: 3, where: { orderby: { field: DATE, order: DESC } }) {
         edges {
