@@ -11,10 +11,10 @@ import SectionSeparator from "../../components/section-separator";
 import Layout from "../../components/layout";
 import PostTitle from "../../components/post-title";
 import Tags from "../../components/tags";
-import { getAllPostsWithSlug, getPostAndMorePosts, getHeader } from "../../lib/api";
+import { getAllPostsWithSlug, getPostAndMorePosts } from "../../lib/api";
 import { CMS_NAME } from "../../lib/constants";
 
-export default function Post({ post, posts, preview, menu }) {
+export default function Post({ post, posts, preview}) {
   const router = useRouter();
   const morePosts = posts?.edges;
 
@@ -25,12 +25,11 @@ export default function Post({ post, posts, preview, menu }) {
   return (
     <Layout preview={preview}>
       <Container>
-        
+        <Header />
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
         ) : (
           <>
-          <Header menu={menu}/>
             <article>
               <Head>
                 <title>
@@ -69,14 +68,12 @@ export const getStaticProps: GetStaticProps = async ({
   previewData,
 }) => {
   const data = await getPostAndMorePosts(params?.slug, preview, previewData);
-  const menu = await getHeader('Header');
 
   return {
     props: {
       preview,
       post: data.post,
       posts: data.posts,
-      menu: menu
     },
     revalidate: 10,
   };
