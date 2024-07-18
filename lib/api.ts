@@ -58,6 +58,48 @@ export async function getAllPostsWithSlug() {
   return data?.posts;
 }
 
+
+
+export async function getAllProducts() {
+  const data = await fetchAPI(`
+      query GET_MENU_BY_NAME {
+        products {
+          nodes {
+            title
+            blocks {
+              content {
+                ... on BlocksContentSectionImageTexteLayout {
+                  __typename
+                  direction
+                  texte
+                  image {
+                    node {
+                      uri
+                    }
+                  }
+                }
+                ... on BlocksContentRelationListsLayout {
+                  __typename
+                  text
+                  postType {
+                    nodes {
+                      ... on Product {
+                        id
+                        title
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+  `);
+  return data?.products;
+}
+
+
 export async function getAllPostsForHome(preview) {
   const data = await fetchAPI(
     `
@@ -154,9 +196,9 @@ export async function getPostAndMorePosts(slug, preview, previewData) {
         ...PostFields
         content
         ${
-          // Only some of the fields of a revision are considered as there are some inconsistencies
-          isRevision
-            ? `
+    // Only some of the fields of a revision are considered as there are some inconsistencies
+    isRevision
+      ? `
         revisions(first: 1, where: { orderby: { field: MODIFIED, order: DESC } }) {
           edges {
             node {
@@ -172,8 +214,8 @@ export async function getPostAndMorePosts(slug, preview, previewData) {
           }
         }
         `
-            : ""
-        }
+      : ""
+    }
       }
       posts(first: 3, where: { orderby: { field: DATE, order: DESC } }) {
         edges {

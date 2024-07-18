@@ -5,12 +5,14 @@ import MoreStories from "../components/more-stories";
 import HeroPost from "../components/hero-post";
 import Intro from "../components/intro";
 import Layout from "../components/layout";
-import { getAllPostsForHome } from "../lib/api";
+import Products from "../components/products";
+import { getAllPostsForHome, getAllProducts } from "../lib/api";
 import { CMS_NAME } from "../lib/constants";
 
-export default function Index({ allPosts: { edges }, preview }) {
+export default function Index({ allPosts: { edges }, preview, allProducts }) {
   const heroPost = edges[0]?.node;
   const morePosts = edges.slice(1);
+  const products = allProducts.nodes;
 
   return (
     <Layout preview={preview}>
@@ -19,6 +21,11 @@ export default function Index({ allPosts: { edges }, preview }) {
       </Head>
       <Container>
         <Intro />
+        {products && (
+          <Products
+            products={products}
+          />
+        )}  
         {heroPost && (
           <HeroPost
             title={heroPost.title}
@@ -37,9 +44,10 @@ export default function Index({ allPosts: { edges }, preview }) {
 
 export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
   const allPosts = await getAllPostsForHome(preview);
+  const allProducts = await getAllProducts();
 
   return {
-    props: { allPosts, preview },
+    props: { allPosts, preview, allProducts },
     revalidate: 10,
   };
 };
