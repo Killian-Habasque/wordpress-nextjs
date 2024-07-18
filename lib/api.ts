@@ -71,10 +71,11 @@ export async function getAllProducts() {
                 ... on BlocksContentSectionImageTexteLayout {
                   __typename
                   direction
-                  texte
+                  text
                   image {
                     node {
-                      uri
+                      altText
+                      sourceUrl
                     }
                   }
                 }

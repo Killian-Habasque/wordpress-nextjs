@@ -7,7 +7,7 @@ export default function ComponentAdapter(props) {
 
     switch (component) {
         case 'BlocksContentSectionImageTexteLayout':
-            return (<SectionImageText texte={data.texte} />)
+            return (<SectionImageText data={data} />)
     }
 
 }
