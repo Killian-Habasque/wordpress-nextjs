@@ -1,13 +1,10 @@
-import SectionImageText from "../sectionImageText";
+import SectionImageText from "../blocks/sectionImageText";
 
 export default function ComponentAdapter(props) {
-    const { data, component } = props
-    console.log(data)
-    console.log(component)
+    const { data, typename } = props
 
-    switch (component) {
+    switch (typename) {
         case 'BlocksContentSectionImageTexteLayout':
-            return (<SectionImageText data={data} />)
+            return (<SectionImageText text={data.text} image={data.image} direction={data.direction} />)
     }
-
 }
