@@ -20,7 +20,39 @@ export const BLOCK_RELATION_LISTS = `
       nodes {
         ... on Product {
           id
+          contentTypeName
+          slug
           title
+          featuredImage {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+        }
+        ... on Post {
+          id
+          title
+          slug
+          contentTypeName
+          featuredImage {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+        }
+        ... on Page {
+          id
+          title
+          slug
+          contentTypeName
+          featuredImage {
+            node {
+              altText
+              sourceUrl
+            }
+          }
         }
       }
     }

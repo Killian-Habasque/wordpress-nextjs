@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getPreviewPost } from "../../lib/api";
+import { getPreviewPost } from "../../lib/requests/post/queries";
+
 
 export default async function preview(
   req: NextApiRequest,
@@ -36,6 +37,6 @@ export default async function preview(
 
   // Redirect to the path from the fetched post
   // We don't redirect to `req.query.slug` as that might lead to open redirect vulnerabilities
-  res.writeHead(307, { Location: `/posts/${post.slug || post.databaseId}` });
+  res.writeHead(307, { Location: `/post/${post.slug || post.databaseId}` });
   res.end();
 }
