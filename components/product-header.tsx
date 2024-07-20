@@ -9,7 +9,7 @@ export default function ProductHeader({
   coverImage,
   date,
   // author,
-  // categories,
+  categories,
 }) {
   return (
     <>
@@ -26,7 +26,7 @@ export default function ProductHeader({
         </div> */}
         <div className="mb-6 text-lg">
           Posted <Date dateString={date} />
-          {/* <Categories categories={categories} /> */}
+          <Categories categories={categories} />
         </div>
       </div>
     </>

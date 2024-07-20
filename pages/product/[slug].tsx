@@ -13,6 +13,7 @@ import PostTitle from "../../components/post-title";
 import Tags from "../../components/tags";
 import { CMS_NAME } from "../../lib/constants";
 import { getAllProductsWithSlug, getProductAndMoreProducts } from "../../lib/requests/product/queries";
+import Content from "../../components/content";
 
 export default function Product({ product, moreProducts, preview }) { // Renommer et ajuster les props
   const router = useRouter();
@@ -52,10 +53,12 @@ export default function Product({ product, moreProducts, preview }) { // Renomme
                 coverImage={product.featuredImage}
                 date={product.date}
                 // author={author}
-                // categories={product.categories}
+                categories={product.categories}
               />
               <PostBody content={product.content} />
             </article>
+
+            <Content content={product.blocks.content} />
 
             <SectionSeparator />
             {moreProducts.length > 0 && <MoreStories posts={moreProducts} />}
