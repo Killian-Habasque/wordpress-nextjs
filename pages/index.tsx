@@ -6,8 +6,11 @@ import HeroPost from "../components/hero-post";
 import Intro from "../components/intro";
 import Layout from "../components/layout";
 import Products from "../components/products";
-import { getAllPostsForHome, getAllProducts } from "../lib/api";
+import RelationLists from "../components/blocks/relationLists";
+
 import { CMS_NAME } from "../lib/constants";
+import { getAllProducts } from "../lib/requests/product/queries";
+import { getAllPostsForHome } from "../lib/requests/post/queries";
 
 export default function Index({ allPosts: { edges }, preview, allProducts }) {
   const heroPost = edges[0]?.node;
@@ -21,6 +24,7 @@ export default function Index({ allPosts: { edges }, preview, allProducts }) {
       </Head>
       <Container>
         <Intro />
+        <RelationLists />
         {products && (
           <Products
             products={products}

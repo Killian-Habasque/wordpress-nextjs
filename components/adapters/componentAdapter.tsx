@@ -1,13 +1,13 @@
-import SectionImageText from "../sectionImageText";
+import SectionImageText from "../blocks/sectionImageText";
+import RelationLists from "../blocks/relationLists";
 
 export default function ComponentAdapter(props) {
-    const { data, component } = props
-    console.log(data)
-    console.log(component)
+    const { data, typename } = props
 
-    switch (component) {
+    switch (typename) {
         case 'BlocksContentSectionImageTexteLayout':
-            return (<SectionImageText data={data} />)
+            return (<SectionImageText text={data.text} image={data.image} direction={data.direction} />)
+        case 'BlocksContentRelationListsLayout':
+            return (<RelationLists text={data.text} postypes={data.postType.nodes} />)
     }
-
 }
