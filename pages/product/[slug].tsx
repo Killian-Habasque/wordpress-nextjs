@@ -14,6 +14,7 @@ import Tags from "../../components/tags";
 import { CMS_NAME } from "../../lib/constants";
 import { getAllProductsWithSlug, getProductAndMoreProducts } from "../../lib/requests/product/queries";
 import Content from "../../components/content";
+import Hero from "../../components/test-hero";
 
 export default function Product({ product, moreProducts, preview }) { // Renommer et ajuster les props
   const router = useRouter();
@@ -34,6 +35,9 @@ export default function Product({ product, moreProducts, preview }) { // Renomme
     <Layout preview={preview}>
       <Container>
         <Header />
+
+        <Hero />
+        
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
         ) : (
