@@ -68,6 +68,14 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
           ${BLOCK_RELATION_LISTS}
         }
       }
+      products {
+        gallery {
+           nodes {
+            sourceUrl
+            altText
+          }
+        }
+      }
       categories {
         edges {
           node {

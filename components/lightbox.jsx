@@ -6,17 +6,17 @@ import { SvgClose } from "./ui/icons";
 import { useState } from "react";
 import { ButtonNext, ButtonPrevious } from "./ui/buttons";
 
-const Lightbox = ({ className, handleIsLightboxOpen }) => {
+const Lightbox = ({ className, handleIsLightboxOpen, gallery }) => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const prevSlide = () => {
     const isFirstSlide = selectedImage === 0;
-    const newIndex = isFirstSlide ? productImages.length - 1 : selectedImage - 1;
+    const newIndex = isFirstSlide ? gallery.length - 1 : selectedImage - 1;
     setSelectedImage(newIndex);
   };
 
   const nextSlide = () => {
-    const isLastSlide = selectedImage === productImages.length - 1;
+    const isLastSlide = selectedImage === gallery.length - 1;
     const newIndex = isLastSlide ? 0 : selectedImage + 1;
     setSelectedImage(newIndex);
   };
@@ -42,7 +42,7 @@ const Lightbox = ({ className, handleIsLightboxOpen }) => {
       </button>
       <div className="relative flex max-w-[30.375rem] max-h-[30.375rem] cursor-pointer items-center">
         <Image
-          src={productImages[selectedImage].url}
+          src={gallery[selectedImage].sourceUrl}
           width={550}
           height={550}
           alt={`Product Image ${selectedImage + 1}`}
@@ -59,7 +59,7 @@ const Lightbox = ({ className, handleIsLightboxOpen }) => {
       </div>
 
       <div className="flex max-w-[30.375rem] justify-between gap-1 px-[3.375rem]">
-        {productThumbnails.map((thumbnail, index) => (
+        {gallery.map((thumbnail, index) => (
           <div
             key={index}
             onClick={() => handleThumbnailClick(index)}
@@ -69,10 +69,10 @@ const Lightbox = ({ className, handleIsLightboxOpen }) => {
           >
             <Image
               key={index}
-              src={thumbnail.url}
+              src={thumbnail.sourceUrl}
               width={88}
               height={88}
-              alt={`Product Thumbnail ${index + 1}`}
+              alt={thumbnail.altText}
               className={`h-full w-full object-cover transition-all duration-150 ease-in-out hover:opacity-45 ${
                 isSelected(index) ? "opacity-45" : ""
               }`}

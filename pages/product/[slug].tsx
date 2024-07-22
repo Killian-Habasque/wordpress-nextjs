@@ -15,16 +15,17 @@ import { CMS_NAME } from "../../lib/constants";
 import { getAllProductsWithSlug, getProductAndMoreProducts } from "../../lib/requests/product/queries";
 import Content from "../../components/content";
 import Hero from "../../components/test-hero";
+import DesktopGallery from "../../components/desktop_gallery";
 
 export default function Product({ product, moreProducts, preview }) { // Renommer et ajuster les props
   const router = useRouter();
   const defaultImageUrl = '/images/default-image.png';
   const author = {
     node: {
-        name: "John",
-        avatar : {
-            url : defaultImageUrl
-        }
+      name: "John",
+      avatar: {
+        url: defaultImageUrl
+      }
     }
   };
   if (!router.isFallback && !product?.slug) {
@@ -36,8 +37,9 @@ export default function Product({ product, moreProducts, preview }) { // Renomme
       <Container>
         <Header />
 
-        <Hero />
-        
+        {/* <Hero /> */}
+
+
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
         ) : (
@@ -52,6 +54,16 @@ export default function Product({ product, moreProducts, preview }) { // Renomme
                   content={product.featuredImage?.node.sourceUrl}
                 />
               </Head>
+
+              <section className="grid md:grid-cols-2 md:place-content-between md:gap-2">
+                {
+                  product.products?.gallery && <DesktopGallery gallery={product.products?.gallery.nodes} className="hidden md:grid md:max-h-[565px] md:max-w-[445px] md:gap-8" />
+                }
+                <div>
+                  <h1>{product.title}</h1>
+                  <p>{product.date}</p>
+                </div>
+              </section>
               <ProductHeader
                 title={product.title}
                 coverImage={product.featuredImage}
