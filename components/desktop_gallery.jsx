@@ -30,17 +30,15 @@ const DesktopGallery = ({ className, gallery}) => {
           gallery={gallery}
         />
       )}
-      <div className="cursor-pointer overflow-hidden rounded-3xl">
-        <Image
+      <div className="relative overflow-hidden rounded-3xl" style={{ height: '70vh' }}>
+        <img
           onClick={handleIsLightboxOpen}
           src={gallery[selectedImage].sourceUrl}
-          width={550}
-          height={550}
           alt={`Product Image`}
           className="h-full w-full object-cover"
         />
       </div>
-      <div className="flex w-full justify-between gap-1">
+      <div className="flex w-full justify-between gap-1 mt-4">
         {gallery.map((thumbnail, index) => (
           <div
             key={index}
@@ -49,11 +47,8 @@ const DesktopGallery = ({ className, gallery}) => {
               isSelected(index) ? "outline outline-2 outline-orange-500/100" : ""
             }`}
           >
-            <Image
-              key={index}
+            <img
               src={thumbnail.sourceUrl}
-              width={88}
-              height={88}
               alt={thumbnail.altText}
               className={`h-full w-full object-cover transition-all duration-150 ease-in-out hover:opacity-45 ${isSelected(index) ? "opacity-45" : ""}`}
             />
