@@ -21,8 +21,8 @@ const GET_PRODUCTS_QUERY = `
 `;
 
 export async function getAllProducts() {
-    const data = await fetchAPI(GET_PRODUCTS_QUERY);
-    return data?.products;
+  const data = await fetchAPI(GET_PRODUCTS_QUERY);
+  return data?.products;
 }
 
 
@@ -60,6 +60,34 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
       featuredImage {
         node {
           sourceUrl
+        }
+      }
+      blocks {
+        content {
+          ${BLOCK_SECTION_IMAGE_TEXTE}
+          ${BLOCK_RELATION_LISTS}
+        }
+      }
+      products {
+        gallery {
+           nodes {
+            sourceUrl
+            altText
+          }
+        }
+      }
+      categories {
+        edges {
+          node {
+            name
+          }
+        }
+      }
+      tags {
+        edges {
+          node {
+            name
+          }
         }
       }
     }
