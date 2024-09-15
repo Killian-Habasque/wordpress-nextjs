@@ -24,7 +24,6 @@ export default function Index({ allPosts: { edges }, preview, allProducts }) {
       </Head>
       <Container>
         <Intro />
-        <RelationLists />
         {products && (
           <Products
             products={products}

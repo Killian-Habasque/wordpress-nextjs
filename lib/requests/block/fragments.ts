@@ -58,3 +58,23 @@ export const BLOCK_RELATION_LISTS = `
     }
   }
 `;
+
+
+
+export const BLOCK_FEATURES_LISTS = `
+  ... on BlocksContentFeaturesListsLayout {
+  __typename
+    text
+    listImage {
+      image {
+        node {
+          altText
+          sourceUrl
+        }
+      }
+    }
+    listText {
+      text
+    }
+  }
+`;

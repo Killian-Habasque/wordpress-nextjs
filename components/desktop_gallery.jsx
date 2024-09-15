@@ -22,7 +22,7 @@ const DesktopGallery = ({ className, gallery}) => {
   };
 
   return (
-    <div className={className}>
+    <div className={className} style={{ height: '70vh' }}>
       {isLightboxOpen && (
         <Lightbox
           className="fixed inset-0 z-[9999] grid h-full w-full place-content-center gap-10 bg-slate-950/75"
@@ -30,7 +30,7 @@ const DesktopGallery = ({ className, gallery}) => {
           gallery={gallery}
         />
       )}
-      <div className="relative overflow-hidden rounded-3xl" style={{ height: '70vh' }}>
+      <div className="relative overflow-hidden rounded-3xl">
         <img
           onClick={handleIsLightboxOpen}
           src={gallery[selectedImage].sourceUrl}

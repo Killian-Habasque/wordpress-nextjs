@@ -1,6 +1,6 @@
 
 import { fetchAPI } from "../../fetchAPI";
-import { BLOCK_SECTION_IMAGE_TEXTE, BLOCK_RELATION_LISTS } from "../block/fragments";
+import { BLOCK_SECTION_IMAGE_TEXTE, BLOCK_RELATION_LISTS, BLOCK_FEATURES_LISTS } from "../block/fragments";
 
 
 
@@ -66,6 +66,7 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
         content {
           ${BLOCK_SECTION_IMAGE_TEXTE}
           ${BLOCK_RELATION_LISTS}
+          ${BLOCK_FEATURES_LISTS}
         }
       }
       products {

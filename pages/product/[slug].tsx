@@ -21,6 +21,7 @@ import {
 } from "../../components/ui/buttons";
 import Categories from "../../components/categories";
 import Date from "../../components/date";
+import ProductFeatures from "../../components/blocks/featuresLists";
 
 export default function Product({ product, moreProducts, preview }) { // Renommer et ajuster les props
   const router = useRouter();
