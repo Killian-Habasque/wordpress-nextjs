@@ -1,10 +1,10 @@
 "use client";
-import { productThumbnails } from "../lib/utils";
+import { productThumbnails } from "../../lib/utils";
 import Image from "next/image";
-import { productImages } from "../lib/utils";
-import { SvgClose } from "./ui/icons";
+import { productImages } from "../../lib/utils";
+import { SvgClose } from "../ui/icons";
 import { useState } from "react";
-import { ButtonNext, ButtonPrevious } from "./ui/buttons";
+import { ButtonNext, ButtonPrevious } from "../ui/buttons";
 
 const Lightbox = ({ className, handleIsLightboxOpen, gallery }) => {
   const [selectedImage, setSelectedImage] = useState(0);

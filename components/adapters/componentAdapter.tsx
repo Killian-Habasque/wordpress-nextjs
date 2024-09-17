@@ -11,6 +11,6 @@ export default function ComponentAdapter(props) {
         case 'BlocksContentRelationListsLayout':
             return (<RelationLists text={data.text} postypes={data.postType.nodes} />)
         case 'BlocksContentFeaturesListsLayout':
-            return (<FeaturesLists text={data.text} listImage={data.listImage} listText={data.listText}/>)
+            return (<FeaturesLists text={data.text} listImage={data.listImage} listText={data.listText} direction={data.direction}/>)
     }
 }

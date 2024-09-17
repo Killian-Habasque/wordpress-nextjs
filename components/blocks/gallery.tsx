@@ -1,8 +1,8 @@
 "use client";
-import { productThumbnails } from "../lib/utils";
+import { productThumbnails } from "../../lib/utils";
 import Image from "next/image";
-import { productImages } from "../lib/utils";
-import Lightbox from "./lightbox";
+import { productImages } from "../../lib/utils";
+import Lightbox from "./ligthbox";
 import { useState } from "react";
 
 const DesktopGallery = ({ className, gallery }) => {

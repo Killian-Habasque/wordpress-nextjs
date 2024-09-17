@@ -64,6 +64,7 @@ export const BLOCK_RELATION_LISTS = `
 export const BLOCK_FEATURES_LISTS = `
   ... on BlocksContentFeaturesListsLayout {
   __typename
+    direction
     text
     listImage {
       image {
