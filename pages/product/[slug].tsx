@@ -50,7 +50,6 @@ export default function Product({ product, moreProducts, preview }) { // Renomme
           <PostTitle>Loading…</PostTitle>
         ) : (
           <>
-            <article>
               <Head>
                 <title>
                   {`${product.title} | Next.js Blog Example with ${CMS_NAME}`}
@@ -61,15 +60,11 @@ export default function Product({ product, moreProducts, preview }) { // Renomme
                 />
               </Head>
 
-              <section className="grid md:grid-cols-2 md:place-content-between md:place-items-center md:gap-2">
+              <section className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 sm:px-6 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
 
                 {product.products?.gallery?.nodes?.length > 0 && (
-                  <DesktopGallery
-                    gallery={product.products.gallery.nodes}
-                    className="h-full md:grid md:max-h-[565px] md:max-w-[445px] md:gap-8"
-                  />
+                  <DesktopGallery gallery={product.products.gallery.nodes} className="hidden md:grid  md:gap-8" />
                 )}
-
                 <section className="w-full">
                   {/* <h1 className="text-xs font-bold uppercase tracking-widest text-clr-orange-dark md:text-sm">
                     Marque
@@ -135,7 +130,7 @@ export default function Product({ product, moreProducts, preview }) { // Renomme
                 categories={product.categories}
               /> */}
               {/* <PostBody content={product.content} /> */}
-            </article>
+  
 
             <Content content={product.blocks.content} />
 

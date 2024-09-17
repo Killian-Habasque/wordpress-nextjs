@@ -31,54 +31,53 @@ const Lightbox = ({ className, handleIsLightboxOpen, gallery }) => {
 
   return (
     <section className={className}>
-      <button
-        className="-mb-6 cursor-pointer place-self-end"
-        role="button"
-        type="button"
-        aria-label="Close Lightbox"
-        onClick={handleIsLightboxOpen}
-      >
-        <SvgClose className="fill-white transition-colors duration-100 ease-in-out hover:fill-orange-500" />
-      </button>
-      <div className="relative flex max-w-[30.375rem] max-h-[30.375rem] cursor-pointer items-center">
+
+      <div className="absolute flex aspect-square w-full h-full cursor-pointer place-content-center py-8 px-8">
         <Image
           src={gallery[selectedImage].sourceUrl}
-          width={550}
-          height={550}
+          width={1050}
+          height={1050}
           alt={`Product Image ${selectedImage + 1}`}
-          className="h-full w-full object-contain"
+          className="h-full w-full object-contain py-24 pt-0"
         />
         <ButtonPrevious
-          className="absolute -left-4 z-10 flex size-10 cursor-pointer items-center justify-center place-self-center rounded-full bg-white"
+          className="absolute -left-0 z-10 flex size-10 cursor-pointer items-center justify-center place-self-center rounded-full bg-white"
           onClick={prevSlide}
         />
         <ButtonNext
-          className="absolute -right-4 z-10 flex size-10 cursor-pointer items-center justify-center place-self-center rounded-full bg-white"
+          className="absolute -right-0 z-10 flex size-10 cursor-pointer items-center justify-center place-self-center rounded-full bg-white"
           onClick={nextSlide}
         />
-      </div>
+        <button
+          className="absolute -right-0 z-10 flex size-10 cursor-pointer items-center justify-start place-self-start rounded-full bg-white"
+          role="button"
+          type="button"
+          aria-label="Close Lightbox"
+          onClick={handleIsLightboxOpen}
+        >
+          <SvgClose className="fill-white transition-colors duration-100 ease-in-out hover:fill-orange-500" />
+        </button>
 
-      <div className="flex max-w-[30.375rem] justify-between gap-1 px-[3.375rem]">
-        {gallery.map((thumbnail, index) => (
-          <div
-            key={index}
-            onClick={() => handleThumbnailClick(index)}
-            className={`aspect-square shrink cursor-pointer overflow-hidden rounded-xl transition-all duration-150 ease-in-out ${
-              isSelected(index) ? "outline outline-2 outline-orange-500/100" : ""
-            }`}
-          >
-            <Image
+        <div className="absolute flex place-self-end max-w-[30.375rem] self-end justify-between gap-1 px-[3.375rem]">
+          {gallery.map((thumbnail, index) => (
+            <div
               key={index}
-              src={thumbnail.sourceUrl}
-              width={88}
-              height={88}
-              alt={thumbnail.altText}
-              className={`h-full w-full object-cover transition-all duration-150 ease-in-out hover:opacity-45 ${
-                isSelected(index) ? "opacity-45" : ""
-              }`}
-            />
-          </div>
-        ))}
+              onClick={() => handleThumbnailClick(index)}
+              className={`aspect-square shrink cursor-pointer overflow-hidden rounded-xl transition-all duration-150 ease-in-out ${isSelected(index) ? "outline outline-2 outline-orange-500/100" : ""
+                }`}
+            >
+              <Image
+                key={index}
+                src={thumbnail.sourceUrl}
+                width={88}
+                height={88}
+                alt={thumbnail.altText}
+                className={`h-full w-full object-cover transition-all duration-150 ease-in-out hover:opacity-45 ${isSelected(index) ? "opacity-45" : ""
+                  }`}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
