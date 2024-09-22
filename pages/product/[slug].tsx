@@ -15,8 +15,9 @@ import Tags from "../../components/tags";
 import { CMS_NAME } from "../../lib/constants";
 import { getAllProductsWithSlug, getProductAndMoreProducts } from "../../lib/requests/product/queries";
 import Content from "../../components/content";
+import { getHeader } from "../../lib/requests/menu/queries";
 
-export default function Product({ product, moreProducts, preview }) {
+export default function Product({ product, moreProducts, preview , header}) {
   const router = useRouter();
   const defaultImageUrl = '/images/default-image.png';
   const author = {
@@ -32,11 +33,11 @@ export default function Product({ product, moreProducts, preview }) {
   if (!router.isFallback && !product?.slug) {
     return <ErrorPage statusCode={404} />;
   }
-
+ 
   return (
     <Layout preview={preview}>
       <Container>
-        <Header />
+        <Header menu={header}/>
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
         ) : (
@@ -75,12 +76,14 @@ export const getStaticProps: GetStaticProps = async ({
   previewData,
 }) => {
   const data = await getProductAndMoreProducts(params?.slug, preview, previewData); // Utiliser la requête pour les produits
+  const header = await getHeader();
 
   return {
     props: {
       preview,
       product: data.product, // Ajuster pour les produits
       moreProducts: data.products, // Ajuster pour les produits
+      header: header
     },
     revalidate: 10,
   };

@@ -1,21 +1,15 @@
-const GET_MENU_ITEM = `
- label
- uri
- menuItem {
-    image {
-        node {
-            altText
-            uri
-            link
-        }
-    }
- }
-`;
+
+import { fetchAPI } from "../../fetchAPI";
+
+export async function getHeader() {
+    const data = await fetchAPI(GET_MENU_QUERY);
+    return data?.menu;
+  }
 
 const GET_MENU_QUERY = `
   query GET_MENU {
     menu(id: "Header", idType: NAME) {
-        header {
+        menu {
             logo {
                 node {
                     sourceUrl
@@ -26,16 +20,15 @@ const GET_MENU_QUERY = `
         menuItems {
             edges {
                 node {
-                    ${GET_MENU_ITEM}
-                    childItems {
-                        edges {
+                    id
+                    parentId
+                    label
+                    uri
+                    menuItem {
+                        image {
                             node {
-                                ${GET_MENU_ITEM}
-                                childItems {
-                                    nodes {
-                                    ${GET_MENU_ITEM}
-                                    }
-                                }
+                                altText
+                                sourceUrl
                             }
                         }
                     }
