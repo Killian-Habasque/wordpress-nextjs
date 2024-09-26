@@ -16,6 +16,7 @@ import { CMS_NAME } from "../../lib/constants";
 import { getAllProductsWithSlug, getProductAndMoreProducts } from "../../lib/requests/product/queries";
 import Content from "../../components/content";
 import { getHeader } from "../../lib/requests/menu/queries";
+import Example from "../../components/blocks/header";
 
 export default function Product({ product, moreProducts, preview , header}) {
   const router = useRouter();
@@ -37,6 +38,7 @@ export default function Product({ product, moreProducts, preview , header}) {
   return (
     <Layout preview={preview}>
       <Container>
+        <Example menu={header}/>
         <Header menu={header}/>
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
