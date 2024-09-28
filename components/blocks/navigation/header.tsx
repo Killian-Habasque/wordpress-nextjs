@@ -1,86 +1,96 @@
 import { Fragment, useState } from 'react'
 import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
-  Tab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
+    Dialog,
+    DialogBackdrop,
+    DialogPanel,
+    Popover,
+    PopoverButton,
+    PopoverGroup,
+    PopoverPanel,
+    Tab,
+    TabGroup,
+    TabList,
+    TabPanel,
+    TabPanels,
 } from '@headlessui/react'
+
+
+import {
+    Bars3Icon,
+    MagnifyingGlassIcon,
+    QuestionMarkCircleIcon,
+    ShoppingBagIcon,
+    XMarkIcon,
+} from '@heroicons/react/24/outline'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
-  categories: [
-    {
-      name: 'Women',
-      featured: [
+    categories: [
         {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
-          imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
+            name: 'Women',
+            featured: [
+                {
+                    name: 'New Arrivals',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
+                    imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
+                },
+                {
+                    name: 'Basic Tees',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
+                    imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
+                },
+                {
+                    name: 'Accessories',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-03.jpg',
+                    imageAlt: 'Model wearing minimalist watch with black wristband and white watch face.',
+                },
+                {
+                    name: 'Carry',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-04.jpg',
+                    imageAlt: 'Model opening tan leather long wallet with credit card pockets and cash pouch.',
+                },
+            ],
         },
         {
-          name: 'Basic Tees',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
-          imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
+            name: 'Men',
+            featured: [
+                {
+                    name: 'New Arrivals',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-01.jpg',
+                    imageAlt: 'Hats and sweaters on wood shelves next to various colors of t-shirts on hangers.',
+                },
+                {
+                    name: 'Basic Tees',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-02.jpg',
+                    imageAlt: 'Model wearing light heather gray t-shirt.',
+                },
+                {
+                    name: 'Accessories',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-03.jpg',
+                    imageAlt:
+                        'Grey 6-panel baseball hat with black brim, black mountain graphic on front, and light heather gray body.',
+                },
+                {
+                    name: 'Carry',
+                    href: '#',
+                    imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-04.jpg',
+                    imageAlt: 'Model putting folded cash into slim card holder olive leather wallet with hand stitching.',
+                },
+            ],
         },
-        {
-          name: 'Accessories',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-03.jpg',
-          imageAlt: 'Model wearing minimalist watch with black wristband and white watch face.',
-        },
-        {
-          name: 'Carry',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-04.jpg',
-          imageAlt: 'Model opening tan leather long wallet with credit card pockets and cash pouch.',
-        },
-      ],
-    },
-    {
-      name: 'Men',
-      featured: [
-        {
-          name: 'New Arrivals',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-01.jpg',
-          imageAlt: 'Hats and sweaters on wood shelves next to various colors of t-shirts on hangers.',
-        },
-        {
-          name: 'Basic Tees',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-02.jpg',
-          imageAlt: 'Model wearing light heather gray t-shirt.',
-        },
-        {
-          name: 'Accessories',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-03.jpg',
-          imageAlt:
-            'Grey 6-panel baseball hat with black brim, black mountain graphic on front, and light heather gray body.',
-        },
-        {
-          name: 'Carry',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-04.jpg',
-          imageAlt: 'Model putting folded cash into slim card holder olive leather wallet with hand stitching.',
-        },
-      ],
-    },
-  ],
-  pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
-  ],
+    ],
+    pages: [
+        { name: 'Company', href: '#' },
+        { name: 'Stores', href: '#' },
+    ],
 }
 
 
@@ -109,7 +119,7 @@ export default function Header() {
                                 className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
                             >
                                 <span className="sr-only">Close menu</span>
-                                {/* <XMarkIcon aria-hidden="true" className="h-6 w-6" /> */}
+                                <XMarkIcon aria-hidden="true" className="h-6 w-6" />
                             </button>
                         </div>
 
@@ -225,7 +235,7 @@ export default function Header() {
                                             ))}
                                         </select>
                                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center">
-                                            {/* <ChevronDownIcon aria-hidden="true" className="h-5 w-5 text-gray-300" /> */}
+                                            <ChevronDownIcon aria-hidden="true" className="h-5 w-5 text-gray-300" />
                                         </div>
                                     </div>
                                 </div>
@@ -243,7 +253,7 @@ export default function Header() {
                     </div>
 
                     {/* Secondary navigation */}
-                    <div className="bg-white bg-opacity-10 backdrop-blur-md backdrop-filter">
+                    <div className="bg-white shadow-sm">
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                             <div>
                                 <div className="flex h-16 items-center justify-between">
@@ -253,7 +263,7 @@ export default function Header() {
                                             <span className="sr-only">Your Company</span>
                                             <img
                                                 alt=""
-                                                src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                                                 className="h-8 w-auto"
                                             />
                                         </a>
@@ -266,11 +276,11 @@ export default function Header() {
                                                 {navigation.categories.map((category) => (
                                                     <Popover key={category.name} className="flex">
                                                         <div className="relative flex">
-                                                            <PopoverButton className="group relative z-10 flex items-center justify-center text-sm font-medium text-white transition-colors duration-200 ease-out">
+                                                            <PopoverButton className="group relative flex items-center justify-center text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:text-indigo-600">
                                                                 {category.name}
                                                                 <span
                                                                     aria-hidden="true"
-                                                                    className="absolute inset-x-0 -bottom-px h-0.5 transition duration-200 ease-out group-data-[open]:bg-white"
+                                                                    className="absolute inset-x-0 -bottom-px z-30 h-0.5 transition duration-200 ease-out group-data-[open]:bg-indigo-600"
                                                                 />
                                                             </PopoverButton>
                                                         </div>
@@ -283,6 +293,7 @@ export default function Header() {
                                                             <div aria-hidden="true" className="absolute inset-0 top-1/2 bg-white shadow" />
 
                                                             <div className="relative bg-white">
+                                                                <div className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"><div className="h-px w-full bg-gray-200 transition-colors duration-200 ease-out"></div></div>
                                                                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                                                                     <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-16">
                                                                         {category.featured.map((item) => (
@@ -314,7 +325,7 @@ export default function Header() {
                                                     <a
                                                         key={page.name}
                                                         href={page.href}
-                                                        className="flex items-center text-sm font-medium text-white"
+                                                        className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
                                                     >
                                                         {page.name}
                                                     </a>
@@ -325,44 +336,44 @@ export default function Header() {
 
                                     {/* Mobile menu and search (lg-) */}
                                     <div className="flex flex-1 items-center lg:hidden">
-                                        <button type="button" onClick={() => setMobileMenuOpen(true)} className="-ml-2 p-2 text-white">
+                                        <button type="button" onClick={() => setMobileMenuOpen(true)} className="-ml-2 rounded-md bg-white p-2 text-gray-400">
                                             <span className="sr-only">Open menu</span>
-                                            {/* <Bars3Icon aria-hidden="true" className="h-6 w-6" /> */}
+                                            <Bars3Icon aria-hidden="true" className="h-6 w-6" />
                                         </button>
 
                                         {/* Search */}
-                                        <a href="#" className="ml-2 p-2 text-white">
+                                        <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
                                             <span className="sr-only">Search</span>
-                                            {/* <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" /> */}
+                                            <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" />
                                         </a>
                                     </div>
 
                                     {/* Logo (lg-) */}
                                     <a href="#" className="lg:hidden">
                                         <span className="sr-only">Your Company</span>
-                                        <img alt="" src="https://tailwindui.com/img/logos/mark.svg?color=white" className="h-8 w-auto" />
+                                        <img alt="" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" className="h-8 w-auto" />
                                     </a>
 
                                     <div className="flex flex-1 items-center justify-end">
-                                        <a href="#" className="hidden text-sm font-medium text-white lg:block">
+                                        <a href="#" className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
                                             Search
                                         </a>
 
                                         <div className="flex items-center lg:ml-8">
                                             {/* Help */}
-                                            <a href="#" className="p-2 text-white lg:hidden">
+                                            <a href="#" className="p-2 text-gray-400 hover:text-gray-500 lg:hidden">
                                                 <span className="sr-only">Help</span>
-                                                {/* <QuestionMarkCircleIcon aria-hidden="true" className="h-6 w-6" /> */}
+                                                <QuestionMarkCircleIcon aria-hidden="true" className="h-6 w-6" />
                                             </a>
-                                            <a href="#" className="hidden text-sm font-medium text-white lg:block">
+                                            <a href="#" className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
                                                 Help
                                             </a>
 
                                             {/* Cart */}
                                             <div className="ml-4 flow-root lg:ml-8">
                                                 <a href="#" className="group -m-2 flex items-center p-2">
-                                                    {/* <ShoppingBagIcon aria-hidden="true" className="h-6 w-6 flex-shrink-0 text-white" /> */}
-                                                    <span className="ml-2 text-sm font-medium text-white">0</span>
+                                                    <ShoppingBagIcon aria-hidden="true" className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
+                                                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
                                                     <span className="sr-only">items in cart, view bag</span>
                                                 </a>
                                             </div>

@@ -9,18 +9,15 @@ export default function Test() {
 
     return (
         <Layout preview={false}>
-                <Head>
-                    <title>
-                        {`Test | Next.js Blog Example with ${CMS_NAME}`}
-                    </title>
-                    <meta
-                        property="og:image"
-                    />
-                </Head>
-
-           
-                
-                    <Example />
+            <Head>
+                <title>
+                    {`Test | Next.js Blog Example with ${CMS_NAME}`}
+                </title>
+                <meta
+                    property="og:image"
+                />
+            </Head>
+            <Example />
         </Layout>
     );
 }

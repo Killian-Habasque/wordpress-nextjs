@@ -5,20 +5,22 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import Container from "../../components/container";
 import PostBody from "../../components/post-body";
 import MoreStories from "../../components/more-stories";
-import Header from "../../components/header";
-import ProductHeader from "../../components/product-header";
+
 import SectionSeparator from "../../components/section-separator";
 import Layout from "../../components/layout";
 import PostTitle from "../../components/post-title";
-import ProductHero from "../../components/blocks/ProductHero";
+
 import Tags from "../../components/tags";
 import { CMS_NAME } from "../../lib/constants";
 import { getAllProductsWithSlug, getProductAndMoreProducts } from "../../lib/requests/product/queries";
 import Content from "../../components/content";
 import { getHeader } from "../../lib/requests/menu/queries";
 import Example from "../../components/blocks/header";
+import Header from "../../components/blocks/navigation/header";
+import HeroProduct from "../../components/blocks/product/hero_product";
 
-export default function Product({ product, moreProducts, preview , header}) {
+
+export default function Product({ product, moreProducts, preview, header }) {
   const router = useRouter();
   const defaultImageUrl = '/images/default-image.png';
   const author = {
@@ -34,40 +36,44 @@ export default function Product({ product, moreProducts, preview , header}) {
   if (!router.isFallback && !product?.slug) {
     return <ErrorPage statusCode={404} />;
   }
- 
+
   return (
     <Layout preview={preview}>
-      <Container>
-        <Example menu={header}/>
-        <Header menu={header}/>
-        {router.isFallback ? (
-          <PostTitle>Loading…</PostTitle>
-        ) : (
-          <>
-            <Head>
-              <title>
-                {`${product.title} | Next.js Blog Example with ${CMS_NAME}`}
-              </title>
-              <meta
-                property="og:image"
-                content={product.featuredImage?.node.sourceUrl}
-              />
-            </Head>
+      {/* <Example menu={header}/> */}
+      {/* <Header menu={header}/> */}
+      <Header />
+      {router.isFallback ? (
+        <PostTitle>Loading…</PostTitle>
+      ) : (
+        <>
+          <Head>
+            <title>
+              {`${product.title} | Next.js Blog Example with ${CMS_NAME}`}
+            </title>
+            <meta
+              property="og:image"
+              content={product.featuredImage?.node.sourceUrl}
+            />
+          </Head>
 
-            <ProductHero
+          <div className="bg-gray-50">
+            <HeroProduct />
+            {/* <ProductHero
               title={product.title}
               gallery={product.products?.gallery?.nodes}
               date={product.date}
               author={author}
-              categories={product.categories} />
+              categories={product.categories} /> */}
 
             <Content content={product.blocks.content} />
 
-            <SectionSeparator />
+            {/* <SectionSeparator /> */}
             {moreProducts.length > 0 && <MoreStories posts={moreProducts} />}
-          </>
-        )}
-      </Container>
+          </div>
+
+        </>
+      )}
+
     </Layout>
   );
 }
