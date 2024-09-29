@@ -57,7 +57,13 @@ export default function Product({ product, moreProducts, preview, header }) {
           </Head>
 
           <div className="bg-gray-50">
-            <HeroProduct />
+            <HeroProduct
+              title={product.title}
+              productInfo={product.products}
+              // date={product.date}
+              // author={author}
+              categories={product.categories}
+            />
             {/* <ProductHero
               title={product.title}
               gallery={product.products?.gallery?.nodes}

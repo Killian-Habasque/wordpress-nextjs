@@ -72,8 +72,19 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
       products {
         gallery {
            nodes {
+            id
             sourceUrl
             altText
+          }
+        }
+        link
+        description
+        rating
+        price
+        details {
+          title
+          list {
+            listItem
           }
         }
       }

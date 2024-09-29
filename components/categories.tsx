@@ -1,13 +1,16 @@
 export default function Categories({ categories }) {
   return (
-    <span className="ml-1">
-      {categories && categories.edges && categories.edges.length > 0 ? (
-        categories.edges.map((category, index) => (
-          <span key={index} className="ml-1">
+    categories && categories.edges && categories.edges.length > 0 ? (
+      <nav className="flex flex-wrap gap-2 mt-4">
+        {categories.edges.map((category, index) => (
+          <a
+            key={index}
+            className="bg-indigo-600 text-white py-1 px-3 rounded-full text-sm"
+          >
             {category.node.name}
-          </span>
-        ))
-      ) : ''}
-    </span>
+          </a>
+        ))}
+      </nav>
+    ) : null
   );
 }
