@@ -1,11 +1,8 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import {
     Dialog,
     DialogBackdrop,
     DialogPanel,
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
     Popover,
     PopoverButton,
     PopoverGroup,
@@ -98,53 +95,18 @@ const navigation = {
 
 
 
-export default function Header(menu) {
-
+export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-    const [menuStructure, setMenuStructure] = useState([]);
-
-
-    useEffect(() => {
-        const buildMenuStructure = () => {
-            const menuItems = menu.menu.menuItems.edges;
-            const menuTree = [];
-
-            // Créer un dictionnaire pour accéder facilement aux items par ID
-            const itemMap = {};
-
-            menuItems.forEach((menuItem) => {
-                const item = { ...menuItem, children: [] };
-                itemMap[menuItem.node.id] = item;
-
-                if (!menuItem.node.parentId) {
-                    menuTree.push(item);
-                }
-            });
-
-            // Ajouter les enfants à leurs parents
-            menuItems.forEach((menuItem) => {
-                const parentId = menuItem.node.parentId;
-                if (parentId && itemMap[parentId]) {
-                    itemMap[parentId].children.push(itemMap[menuItem.node.id]);
-                }
-            });
-
-            setMenuStructure(menuTree);
-        };
-
-        buildMenuStructure();
-    }, [menu]);
 
     return (
         <>
             {/* Mobile menu */}
-
-            <Dialog open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} className="relative z-40 lg:hidden">
+            <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="relative z-40 lg:hidden">
                 <DialogBackdrop
                     transition
                     className="fixed inset-0 bg-black bg-opacity-25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
                 />
+
                 <div className="fixed inset-0 z-40 flex">
                     <DialogPanel
                         transition
@@ -162,59 +124,93 @@ export default function Header(menu) {
                         </div>
 
                         {/* Links */}
-                        <div className="mt-6 flow-root">
-                            <div className="-my-6 divide-y divide-gray-500/10">
-                                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                                    {menuStructure.map((item) => (
-                                        item.children.length > 0 ? (
-                                            <Disclosure key={item.node.id} as="div" className="-mx-3">
-                                                <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-700 hover:bg-gray-50">
-                                                    {item.node.label}
-                                                    <ChevronDownIcon aria-hidden="true" className="h-5 w-5 flex-none group-data-[open]:rotate-180" />
-                                                </DisclosureButton>
-                                                <DisclosurePanel className="mt-2 space-y-2">
-                                                    {item.children.map((child) => (
-                                                        <DisclosureButton
-                                                            key={child.node.id}
-                                                            as="a"
-                                                            href={child.node.uri}
-                                                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                                        >
-                                                            {child.node.menuItem.image && (
-                                                                <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
-                                                                    <img
-                                                                        alt={child.node.menuItem.image.node.altText}
-                                                                        src={child.node.menuItem.image.node.sourceUrl}
-                                                                        className="object-cover object-center"
-                                                                    />
-                                                                </div>
-                                                            )}
-                                                            {child.node.label}
-                                                        </DisclosureButton>
-                                                    ))}
-                                                </DisclosurePanel>
-                                            </Disclosure>
-                                        ) : (
-                                            <a key={item.node.id} href={item.node.uri} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                                                {item.node.label}
-                                            </a>
-                                        )
+                        <TabGroup className="mt-2">
+                            <div className="border-b border-gray-200">
+                                <TabList className="-mb-px flex space-x-8 px-4">
+                                    {navigation.categories.map((category) => (
+                                        <Tab
+                                            key={category.name}
+                                            className="flex-1 whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-base font-medium text-gray-900 data-[selected]:border-indigo-600 data-[selected]:text-indigo-600"
+                                        >
+                                            {category.name}
+                                        </Tab>
                                     ))}
-                                </div>
-                                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                                    <a
-                                        href="#"
-                                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                    >
-                                        Log in
+                                </TabList>
+                            </div>
+                            <TabPanels as={Fragment}>
+                                {navigation.categories.map((category) => (
+                                    <TabPanel key={category.name} className="space-y-12 px-4 py-6">
+                                        <div className="grid grid-cols-2 gap-x-4 gap-y-10">
+                                            {category.featured.map((item) => (
+                                                <div key={item.name} className="group relative">
+                                                    <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
+                                                        <img alt={item.imageAlt} src={item.imageSrc} className="object-cover object-center" />
+                                                    </div>
+                                                    <a href={item.href} className="mt-6 block text-sm font-medium text-gray-900">
+                                                        <span aria-hidden="true" className="absolute inset-0 z-10" />
+                                                        {item.name}
+                                                    </a>
+                                                    <p aria-hidden="true" className="mt-1 text-sm text-gray-500">
+                                                        Shop now
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </TabPanel>
+                                ))}
+                            </TabPanels>
+                        </TabGroup>
+
+                        <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                            {navigation.pages.map((page) => (
+                                <div key={page.name} className="flow-root">
+                                    <a href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
+                                        {page.name}
                                     </a>
                                 </div>
+                            ))}
+                        </div>
+
+                        <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                            <div className="flow-root">
+                                <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
+                                    Create an account
+                                </a>
                             </div>
+                            <div className="flow-root">
+                                <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
+                                    Sign in
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="space-y-6 border-t border-gray-200 px-4 py-6">
+                            {/* Currency selector */}
+                            <form>
+                                <div className="inline-block">
+                                    <label htmlFor="mobile-currency" className="sr-only">
+                                        Currency
+                                    </label>
+                                    <div className="group relative -ml-2 rounded-md border-transparent focus-within:ring-2 focus-within:ring-white">
+                                        <select
+                                            id="mobile-currency"
+                                            name="currency"
+                                            className="flex items-center rounded-md border-transparent bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-gray-700 focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-800"
+                                        >
+                                            {currencies.map((currency) => (
+                                                <option key={currency}>{currency}</option>
+                                            ))}
+                                        </select>
+                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center">
+                                            {/* <ChevronDownIcon aria-hidden="true" className="h-5 w-5 text-gray-500" /> */}
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </DialogPanel>
                 </div>
             </Dialog>
-
 
             {/* Navigation */}
             <header className="relative z-10 bg-gray-900">
@@ -264,7 +260,7 @@ export default function Header(menu) {
                                     {/* Logo (lg+) */}
                                     <div className="hidden lg:flex lg:flex-1 lg:items-center">
                                         <a href="#">
-                                            <span className="sr-only">Siège ergonomique</span>
+                                            <span className="sr-only">Your Company</span>
                                             <img
                                                 alt=""
                                                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -277,63 +273,55 @@ export default function Header(menu) {
                                         {/* Flyout menus */}
                                         <PopoverGroup className="inset-x-0 bottom-0 px-4">
                                             <div className="flex h-full justify-center space-x-8">
-                                                {menuStructure.map((category) => (
-                                                    category.children.length > 0 ? (
-                                                        <Popover key={category.node.id} className="flex">
-                                                            <div className="relative flex">
-                                                                <PopoverButton className="group relative flex items-center justify-center text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:text-indigo-600">
-                                                                    {category.node.label}
-                                                                    <span
-                                                                        aria-hidden="true"
-                                                                        className="absolute inset-x-0 -bottom-px z-30 h-0.5 transition duration-200 ease-out group-data-[open]:bg-indigo-600"
-                                                                    />
-                                                                </PopoverButton>
-                                                            </div>
+                                                {navigation.categories.map((category) => (
+                                                    <Popover key={category.name} className="flex">
+                                                        <div className="relative flex">
+                                                            <PopoverButton className="group relative flex items-center justify-center text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:text-indigo-600">
+                                                                {category.name}
+                                                                <span
+                                                                    aria-hidden="true"
+                                                                    className="absolute inset-x-0 -bottom-px z-30 h-0.5 transition duration-200 ease-out group-data-[open]:bg-indigo-600"
+                                                                />
+                                                            </PopoverButton>
+                                                        </div>
 
-                                                            <PopoverPanel
-                                                                transition
-                                                                className="absolute inset-x-0 top-full text-sm text-gray-500 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
-                                                            >
-                                                                {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-                                                                <div aria-hidden="true" className="absolute inset-0 top-1/2 bg-white shadow" />
+                                                        <PopoverPanel
+                                                            transition
+                                                            className="absolute inset-x-0 top-full text-sm text-gray-500 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+                                                        >
+                                                            {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
+                                                            <div aria-hidden="true" className="absolute inset-0 top-1/2 bg-white shadow" />
 
-                                                                <div className="relative bg-white">
-                                                                    <div className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"><div className="h-px w-full bg-gray-200 transition-colors duration-200 ease-out"></div></div>
-                                                                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                                                                        <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-16">
-                                                                            {category.children.map((item) => (
-                                                                                <div key={item.node.label} className="group relative">
-                                                                                    {item.node.menuItem.image && (
-                                                                                        <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
-                                                                                            <img
-                                                                                                alt={item.node.menuItem.image.node.altText}
-                                                                                                src={item.node.menuItem.image.node.sourceUrl}
-                                                                                                className="object-cover object-center"
-                                                                                            />
-                                                                                        </div>
-                                                                                    )}
-                                                                                    <a href={item.node.uri} className="mt-4 block font-medium text-gray-900">
-                                                                                        <span aria-hidden="true" className="absolute inset-0 z-10" />
-                                                                                        {item.node.label}
-                                                                                    </a>
-                                                                                    <p aria-hidden="true" className="mt-1">
-                                                                                        Shop now
-                                                                                    </p>
+                                                            <div className="relative bg-white">
+                                                                <div className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"><div className="h-px w-full bg-gray-200 transition-colors duration-200 ease-out"></div></div>
+                                                                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                                                                    <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-16">
+                                                                        {category.featured.map((item) => (
+                                                                            <div key={item.name} className="group relative">
+                                                                                <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
+                                                                                    <img
+                                                                                        alt={item.imageAlt}
+                                                                                        src={item.imageSrc}
+                                                                                        className="object-cover object-center"
+                                                                                    />
                                                                                 </div>
-                                                                            ))}
-                                                                        </div>
+                                                                                <a href={item.href} className="mt-4 block font-medium text-gray-900">
+                                                                                    <span aria-hidden="true" className="absolute inset-0 z-10" />
+                                                                                    {item.name}
+                                                                                </a>
+                                                                                <p aria-hidden="true" className="mt-1">
+                                                                                    Shop now
+                                                                                </p>
+                                                                            </div>
+                                                                        ))}
                                                                     </div>
                                                                 </div>
-                                                            </PopoverPanel>
-                                                        </Popover>
-                                                    ) : (
-                                                        <a key={category.node.id} href={category.node.uri} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
-                                                            {category.node.label}
-                                                        </a>
-                                                    )
+                                                            </div>
+                                                        </PopoverPanel>
+                                                    </Popover>
                                                 ))}
 
-                                                {/* {navigation.pages.map((page) => (
+                                                {navigation.pages.map((page) => (
                                                     <a
                                                         key={page.name}
                                                         href={page.href}
@@ -341,7 +329,7 @@ export default function Header(menu) {
                                                     >
                                                         {page.name}
                                                     </a>
-                                                ))} */}
+                                                ))}
                                             </div>
                                         </PopoverGroup>
                                     </div>
@@ -362,7 +350,7 @@ export default function Header(menu) {
 
                                     {/* Logo (lg-) */}
                                     <a href="#" className="lg:hidden">
-                                        <span className="sr-only">Siège ergonomique</span>
+                                        <span className="sr-only">Your Company</span>
                                         <img alt="" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" className="h-8 w-auto" />
                                     </a>
 
@@ -372,7 +360,7 @@ export default function Header(menu) {
                                         </a>
 
                                         <div className="flex items-center lg:ml-8">
-
+                                            {/* Help */}
                                             <a href="#" className="p-2 text-gray-400 hover:text-gray-500 lg:hidden">
                                                 <span className="sr-only">Help</span>
                                                 <QuestionMarkCircleIcon aria-hidden="true" className="h-6 w-6" />
@@ -381,7 +369,7 @@ export default function Header(menu) {
                                                 Help
                                             </a>
 
-
+                                            {/* Cart */}
                                             <div className="ml-4 flow-root lg:ml-8">
                                                 <a href="#" className="group -m-2 flex items-center p-2">
                                                     <ShoppingBagIcon aria-hidden="true" className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />

@@ -27,7 +27,6 @@ function classNames(...classes) {
 
 export default function HeroProduct({ title, categories, productInfo }) {
 
-    console.log(categories)
     return (
         <section className="block hero_bg_image">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">

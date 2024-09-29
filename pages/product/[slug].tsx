@@ -41,7 +41,7 @@ export default function Product({ product, moreProducts, preview, header }) {
     <Layout preview={preview}>
       {/* <Example menu={header}/> */}
       {/* <Header menu={header}/> */}
-      <Header />
+      <Header menu={header} />
       {router.isFallback ? (
         <PostTitle>Loading…</PostTitle>
       ) : (
