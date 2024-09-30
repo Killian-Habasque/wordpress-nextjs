@@ -18,9 +18,10 @@ import { getHeader } from "../../lib/requests/menu/queries";
 import Example from "../../components/blocks/header";
 import Header from "../../components/blocks/navigation/header";
 import HeroProduct from "../../components/blocks/product/hero_product";
-
+import parse from "html-react-parser";
 
 export default function Product({ product, moreProducts, preview, header }) {
+  const fullHead = parse(product.seo.fullHead);
   const router = useRouter();
   const defaultImageUrl = '/images/default-image.png';
   const author = {
@@ -47,13 +48,7 @@ export default function Product({ product, moreProducts, preview, header }) {
       ) : (
         <>
           <Head>
-            <title>
-              {`${product.title} | Next.js Blog Example with ${CMS_NAME}`}
-            </title>
-            <meta
-              property="og:image"
-              content={product.featuredImage?.node.sourceUrl}
-            />
+            { fullHead }
           </Head>
 
           <div className="bg-gray-50">
