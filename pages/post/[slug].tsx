@@ -5,7 +5,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import Container from "../../components/container";
 import PostBody from "../../components/post-body";
 import MoreStories from "../../components/more-stories";
-import Header from "../../components/header";
+import Header from "../../components/blocks/navigation/header";
 import PostHeader from "../../components/post-header";
 import SectionSeparator from "../../components/section-separator";
 import Layout from "../../components/layout";
@@ -13,8 +13,11 @@ import PostTitle from "../../components/post-title";
 import Tags from "../../components/tags";
 import { CMS_NAME } from "../../lib/constants";
 import { getAllPostsWithSlug, getPostAndMorePosts } from "../../lib/requests/post/queries";
+import HeroPost from "../../components/blocks/post/hero_post";
+import { getHeader } from "../../lib/requests/menu/queries";
+import PageLoading from "../../components/loading";
 
-export default function Post({ post, posts, preview }) {
+export default function Post({ post, posts, preview, header }) {
   const router = useRouter();
   const morePosts = posts?.edges;
 
@@ -24,10 +27,11 @@ export default function Post({ post, posts, preview }) {
 
   return (
     <Layout preview={preview}>
+      <Header menu={header} />
       <Container>
-        <Header />
+        {/* <Header /> */}
         {router.isFallback ? (
-          <PostTitle>Loading…</PostTitle>
+          <PageLoading>Loading…</PageLoading>
         ) : (
           <>
             <article>
@@ -40,13 +44,20 @@ export default function Post({ post, posts, preview }) {
                   content={post.featuredImage?.node.sourceUrl}
                 />
               </Head>
-              <PostHeader
+              <HeroPost
+                title={post.title}
+                excerpt={post.excerpt}
+                coverImage={post.featuredImage}
+                author={post.author}
+                date={post.date}
+                categories={post.categories} />
+              {/* <PostHeader
                 title={post.title}
                 coverImage={post.featuredImage}
                 date={post.date}
                 author={post.author}
                 categories={post.categories}
-              />
+              /> */}
               <PostBody content={post.content} />
               <footer>
                 {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
@@ -68,12 +79,14 @@ export const getStaticProps: GetStaticProps = async ({
   previewData,
 }) => {
   const data = await getPostAndMorePosts(params?.slug, preview, previewData);
+  const header = await getHeader();
 
   return {
     props: {
       preview,
       post: data.post,
       posts: data.posts,
+      header: header
     },
     revalidate: 10,
   };

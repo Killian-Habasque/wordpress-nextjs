@@ -57,6 +57,11 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
       title
       slug
       date
+      seo {
+        title
+        metaDesc
+        fullHead
+      }
       featuredImage {
         node {
           sourceUrl
@@ -72,8 +77,19 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
       products {
         gallery {
            nodes {
+            id
             sourceUrl
             altText
+          }
+        }
+        link
+        description
+        rating
+        price
+        details {
+          title
+          list {
+            listItem
           }
         }
       }
