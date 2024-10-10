@@ -1,3 +1,4 @@
+import React from "react";
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import Head from "next/head";
@@ -19,33 +20,26 @@ import Example from "../../components/blocks/header";
 import Header from "../../components/blocks/navigation/header";
 import HeroProduct from "../../components/blocks/product/hero_product";
 import parse from "html-react-parser";
+import PageLoading from "../../components/loading";
+
 
 export default function Product({ product, moreProducts, preview, header }) {
-  const fullHead = parse(product.seo.fullHead);
   const router = useRouter();
-  const defaultImageUrl = '/images/default-image.png';
-  const author = {
-    node: {
-      name: "John",
-      firstName: "Killian",
-      lastName: "Habasque",
-      avatar: {
-        url: defaultImageUrl
-      }
-    }
-  };
+  const fullHead = parse(product.seo.fullHead);
+
   if (!router.isFallback && !product?.slug) {
     return <ErrorPage statusCode={404} />;
   }
 
   return (
     <Layout preview={preview}>
-      {/* <Example menu={header}/> */}
-      {/* <Header menu={header}/> */}
+
       <Header menu={header} />
+
       {router.isFallback ? (
-        <PostTitle>Loading…</PostTitle>
+        <PageLoading>Loading…</PageLoading>
       ) : (
+        
         <>
           <Head>
             { fullHead }
@@ -59,16 +53,10 @@ export default function Product({ product, moreProducts, preview, header }) {
               // author={author}
               categories={product.categories}
             />
-            {/* <ProductHero
-              title={product.title}
-              gallery={product.products?.gallery?.nodes}
-              date={product.date}
-              author={author}
-              categories={product.categories} /> */}
 
             <Content content={product.blocks.content} />
 
-            {/* <SectionSeparator /> */}
+            <SectionSeparator />
             {moreProducts.length > 0 && <MoreStories posts={moreProducts} />}
           </div>
 
@@ -84,14 +72,14 @@ export const getStaticProps: GetStaticProps = async ({
   preview = false,
   previewData,
 }) => {
-  const data = await getProductAndMoreProducts(params?.slug, preview, previewData); // Utiliser la requête pour les produits
+  const data = await getProductAndMoreProducts(params?.slug, preview, previewData);
   const header = await getHeader();
 
   return {
     props: {
       preview,
-      product: data.product, // Ajuster pour les produits
-      moreProducts: data.products, // Ajuster pour les produits
+      product: data.product, 
+      moreProducts: data.products, 
       header: header
     },
     revalidate: 10,

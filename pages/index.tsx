@@ -2,7 +2,7 @@ import Head from "next/head";
 import { GetStaticProps } from "next";
 import Container from "../components/container";
 import MoreStories from "../components/more-stories";
-import HeroPost from "../components/hero-post";
+import HeroPost from "../components/post-header";
 import Intro from "../components/intro";
 import Layout from "../components/layout";
 import Products from "../components/products";

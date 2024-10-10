@@ -27,7 +27,7 @@ module.exports = {
       },
       {
         protocol: 'http',
-        hostname: 'test-graphql.local',
+        hostname: 'test-graphql-old.local',
         port: '',
         pathname: '/wp-content/uploads/**',
       },
