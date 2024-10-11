@@ -1,42 +1,46 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getPreviewPost } from "../../lib/requests/post/queries";
+import { getPreviewProduct } from "../../lib/requests/product/queries";
 
 
 export default async function preview(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { secret, id, slug } = req.query;
+  const { secret, id, slug, type } = req.query;
 
   // Check the secret and next parameters
   // This secret should only be known by this API route
   if (
     !process.env.WORDPRESS_PREVIEW_SECRET ||
     secret !== process.env.WORDPRESS_PREVIEW_SECRET ||
-    (!id && !slug)
+    (!id && !slug)||
+    !type
   ) {
     return res.status(401).json({ message: "Invalid token" });
   }
 
-  // Fetch WordPress to check if the provided `id` or `slug` exists
-  const post = await getPreviewPost(id || slug, id ? "DATABASE_ID" : "SLUG");
-
-  // If the post doesn't exist prevent preview mode from being enabled
-  if (!post) {
-    return res.status(401).json({ message: "Post not found" });
+  let item;
+  if (type === "post") {
+    item = await getPreviewPost(id || slug, id ? "DATABASE_ID" : "SLUG");
+  } else if (type === "product") {
+    item = await getPreviewProduct(id || slug, id ? "DATABASE_ID" : "SLUG");
+  } else {
+    return res.status(400).json({ message: "Invalid type" });
   }
 
-  // Enable Preview Mode by setting the cookies
+  if (!item) {
+    return res.status(401).json({ message: `${type.charAt(0).toUpperCase() + type.slice(1)} not found` });
+  }
+  
   res.setPreviewData({
-    post: {
-      id: post.databaseId,
-      slug: post.slug,
-      status: post.status,
+    [type]: {
+      id: item.databaseId,
+      slug: item.slug,
+      status: item.status,
     },
   });
 
-  // Redirect to the path from the fetched post
-  // We don't redirect to `req.query.slug` as that might lead to open redirect vulnerabilities
-  res.writeHead(307, { Location: `/post/${post.slug || post.databaseId}` });
+  res.writeHead(307, { Location: `/${type}/${item.slug || item.databaseId}` });
   res.end();
 }

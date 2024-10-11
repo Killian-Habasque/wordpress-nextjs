@@ -49,8 +49,6 @@ export default function Product({ product, moreProducts, preview, header }) {
             <HeroProduct
               title={product.title}
               productInfo={product.products}
-              // date={product.date}
-              // author={author}
               categories={product.categories}
             />
 

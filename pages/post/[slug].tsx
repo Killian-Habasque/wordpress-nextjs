@@ -51,14 +51,10 @@ export default function Post({ post, posts, preview, header }) {
                 author={post.author}
                 date={post.date}
                 categories={post.categories} />
-              {/* <PostHeader
-                title={post.title}
-                coverImage={post.featuredImage}
-                date={post.date}
-                author={post.author}
-                categories={post.categories}
-              /> */}
-              <PostBody content={post.content} />
+
+              {/* <Content content={post.blocks.content} /> */}
+
+              {/* <PostBody content={post.content} /> */}
               <footer>
                 {post.tags.edges.length > 0 && <Tags tags={post.tags} />}
               </footer>
