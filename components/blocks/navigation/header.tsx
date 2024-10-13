@@ -196,12 +196,12 @@ export default function Header(menu) {
                                 <div className="flex h-16 items-center justify-between">
                                     {/* Logo (lg+) */}
                                     <div className="hidden lg:flex lg:flex-1 lg:items-center">
-                                        <a href="#">
+                                        <a href="/">
                                             <span className="sr-only">Siège ergonomique</span>
                                             <img
-                                                alt=""
-                                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                                className="h-8 w-auto"
+                                                alt={menu.menu.menu.logo.node.altText}
+                                                src={menu.menu.menu.logo.node.sourceUrl}
+                                                className="h-7 w-auto"
                                             />
                                         </a>
                                     </div>

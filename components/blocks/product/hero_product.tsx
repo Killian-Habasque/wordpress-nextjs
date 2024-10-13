@@ -69,7 +69,7 @@ export default function HeroProduct({ title, categories, productInfo }) {
 
                     {/* Product info */}
                     <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-                        <h1 className="text-7xl font-bold tracking-tight text-gray-900 mb-6 mt-6 leading-none">{title}</h1>
+                        <h1 className="text-6xl font-bold tracking-tight text-gray-900 mb-6 mt-6 leading-none">{title}</h1>
                         {categories && (
                             <Categories categories={categories} />
                         )}

@@ -8,19 +8,17 @@ import PostBody from "../../components/post-body";
 import MoreStories from "../../components/more-stories";
 
 import SectionSeparator from "../../components/section-separator";
-import Layout from "../../components/layout";
 import PostTitle from "../../components/post-title";
 
 import Tags from "../../components/tags";
 import { CMS_NAME } from "../../lib/constants";
 import { getAllProductsWithSlug, getProductAndMoreProducts } from "../../lib/requests/product/queries";
 import Content from "../../components/content";
-import { getHeader } from "../../lib/requests/menu/queries";
 import Example from "../../components/blocks/header";
-import Header from "../../components/blocks/navigation/header";
 import HeroProduct from "../../components/blocks/product/hero_product";
 import parse from "html-react-parser";
 import PageLoading from "../../components/loading";
+import PageLayout from "../../components/layout/page_layout";
 
 
 export default function Product({ product, moreProducts, preview, header }) {
@@ -32,9 +30,7 @@ export default function Product({ product, moreProducts, preview, header }) {
   }
 
   return (
-    <Layout preview={preview}>
-
-      <Header menu={header} />
+    <PageLayout preview={preview}>
 
       {router.isFallback ? (
         <PageLoading>Loading…</PageLoading>
@@ -54,14 +50,14 @@ export default function Product({ product, moreProducts, preview, header }) {
 
             <Content content={product.blocks.content} />
 
-            <SectionSeparator />
+            {/* <SectionSeparator /> */}
             {moreProducts.length > 0 && <MoreStories posts={moreProducts} />}
           </div>
 
         </>
       )}
 
-    </Layout>
+    </PageLayout>
   );
 }
 
@@ -71,14 +67,12 @@ export const getStaticProps: GetStaticProps = async ({
   previewData,
 }) => {
   const data = await getProductAndMoreProducts(params?.slug, preview, previewData);
-  const header = await getHeader();
 
   return {
     props: {
       preview,
       product: data.product, 
-      moreProducts: data.products, 
-      header: header
+      moreProducts: data.products
     },
     revalidate: 10,
   };
