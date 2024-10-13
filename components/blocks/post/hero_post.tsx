@@ -5,10 +5,10 @@ import {
 } from '@heroicons/react/24/outline'
 
 import { StarIcon } from '@heroicons/react/20/solid'
-import Categories from '../../categories'
-import PostTitle from '../../post-title'
-import Date from '../../date'
-import Avatar from '../../avatar'
+import Categories from '../../elements/categories'
+import PostTitle from '../../elements/title'
+import Date from '../../elements/date'
+import Avatar from '../../elements/avatar'
 import CoverImage from '../../cover-image'
 
 

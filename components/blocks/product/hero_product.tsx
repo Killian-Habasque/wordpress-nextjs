@@ -17,7 +17,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 import { StarIcon } from '@heroicons/react/20/solid'
-import Categories from '../../categories'
+import Categories from '../../elements/categories'
 
 
 

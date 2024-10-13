@@ -1,8 +1,8 @@
 import Footer from "../blocks/navigation/footer";
 import Header from "../blocks/navigation/header";
-import Meta from "../meta";
+import Meta from "../seo/meta";
 
-export default function Layout({ children, header }) {
+export default function AppLayout({ children, header }) {
   return (
     <>
       <Meta />

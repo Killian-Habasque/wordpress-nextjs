@@ -1,4 +1,4 @@
-import Content from "./content";
+import Content from "./layouts/content";
 
 export default function Products({ products }) {
     return (

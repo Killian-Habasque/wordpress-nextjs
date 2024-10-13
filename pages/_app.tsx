@@ -1,6 +1,6 @@
 import { AppProps } from "next/app";
 import "../styles/index.css";
-import AppLayout from "../components/layout/app_layout";
+import AppLayout from "../components/layouts/app_layout";
 import { getHeader } from "../lib/requests/menu/queries";
 import { NextPageContext } from 'next'
 

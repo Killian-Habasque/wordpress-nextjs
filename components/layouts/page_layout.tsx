@@ -1,4 +1,4 @@
-import Alert from "../alert";
+import Alert from "../elements/alert";
 
 export default function PageLayout({ preview, children }) {
   return (

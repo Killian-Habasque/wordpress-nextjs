@@ -2,17 +2,16 @@ import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Container from "../../components/container";
-import PostBody from "../../components/post-body";
+import Container from "../../components/layouts/container";
 import MoreStories from "../../components/more-stories";
-import SectionSeparator from "../../components/section-separator";
-import PostTitle from "../../components/post-title";
-import Tags from "../../components/tags";
+import SectionSeparator from "../../components/elements/separator";
+import PostTitle from "../../components/elements/title";
+import Tags from "../../components/elements/tags";
 import { CMS_NAME } from "../../lib/constants";
 import { getAllPostsWithSlug, getPostAndMorePosts } from "../../lib/requests/post/queries";
 import HeroPost from "../../components/blocks/post/hero_post";
-import PageLoading from "../../components/loading";
-import PageLayout from "../../components/layout/page_layout";
+import PageLoading from "../../components/pages/loading";
+import PageLayout from "../../components/layouts/page_layout";
 
 export default function Post({ post, posts, preview }) {
   const router = useRouter();
