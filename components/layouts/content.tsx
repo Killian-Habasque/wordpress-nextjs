@@ -1,4 +1,4 @@
-import ComponentAdapter from "./adapters/componentAdapter";
+import ComponentAdapter from "../adapters/componentAdapter";
 
 export default function Content({ content }) {
     return (

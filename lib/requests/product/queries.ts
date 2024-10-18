@@ -3,6 +3,24 @@ import { fetchAPI } from "../../fetchAPI";
 import { BLOCK_SECTION_IMAGE_TEXTE, BLOCK_RELATION_LISTS, BLOCK_FEATURES_LISTS } from "../block/fragments";
 
 
+export async function getPreviewProduct(id, idType = "DATABASE_ID") {
+  const data = await fetchAPI(
+    `
+    query PreviewProduct($id: ID!, $idType: ProductIdType!) {
+      product(id: $id, idType: $idType) {
+        databaseId
+        slug
+        status
+      }
+    }
+    `,
+    {
+      variables: { id, idType },
+    }
+  );
+  return data?.product;
+}
+
 
 const GET_PRODUCTS_QUERY = `
   query GET_PRODUCTS {
@@ -47,8 +65,8 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
   // The slug may be the id of an unpublished product
   const isId = Number.isInteger(Number(slug));
   const isSameProduct = isId
-    ? Number(slug) === productPreview.id
-    : slug === productPreview.slug;
+    ? productPreview && Number(slug) === productPreview.id
+    : productPreview && slug === productPreview.slug;
   const isDraft = isSameProduct && productPreview?.status === "draft";
 
   const data = await fetchAPI(

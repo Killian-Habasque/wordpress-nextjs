@@ -1,47 +1,32 @@
 import Head from "next/head";
 import { GetStaticProps } from "next";
-import Container from "../components/container";
+import Container from "../components/layouts/container";
 import MoreStories from "../components/more-stories";
 import HeroPost from "../components/post-header";
-import Intro from "../components/intro";
-import Layout from "../components/layout";
 import Products from "../components/products";
 import RelationLists from "../components/blocks/relationLists";
 
 import { CMS_NAME } from "../lib/constants";
 import { getAllProducts } from "../lib/requests/product/queries";
 import { getAllPostsForHome } from "../lib/requests/post/queries";
+import PageLayout from "../components/layouts/page_layout";
 
-export default function Index({ allPosts: { edges }, preview, allProducts }) {
-  const heroPost = edges[0]?.node;
-  const morePosts = edges.slice(1);
+export default function Index({ preview, allProducts }) {
   const products = allProducts.nodes;
-
+// console.log(products)
   return (
-    <Layout preview={preview}>
+    <PageLayout preview={preview}>
       <Head>
         <title>{`Next.js Blog Example with ${CMS_NAME}`}</title>
       </Head>
       <Container>
-        <Intro />
         {products && (
           <Products
             products={products}
           />
         )}  
-        {heroPost && (
-          <HeroPost
-            title={heroPost.title}
-            coverImage={heroPost.featuredImage}
-            date={heroPost.date}
-            author={heroPost.author}
-            slug={heroPost.slug}
-            excerpt={heroPost.excerpt}
-          />
-        )}
-        {morePosts.length > 0 && <MoreStories posts={morePosts} />}
       </Container>
-    </Layout>
+    </PageLayout>
   );
 }
 

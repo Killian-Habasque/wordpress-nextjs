@@ -30,11 +30,11 @@ import {
   TabPanel,
   TabPanels,
 } from '@headlessui/react'
-import HeroBackgroundImage from '../blocks/hero/hero_bg_image'
+import HeroBackgroundImage from '../blocks/hero/hero_bg_image.tsx'
 import Header from '../blocks/navigation/header.tsx'
-import ListPosttypeRelation from '../blocks/list/list_postype_relation'
-import CardFeatured from '../blocks/card/card_featured'
-import Footer from '../blocks/navigation/footer'
+import ListPosttypeRelation from '../blocks/list/list_postype_relation.tsx'
+import CardFeatured from '../blocks/card/card_featured.tsx'
+import Footer from '../blocks/navigation/footer.tsx'
 // import {
 //   Bars3Icon,
 //   MagnifyingGlassIcon,

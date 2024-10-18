@@ -26,6 +26,7 @@ import {
     XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import menuAdapter from '../../adapters/menuAdapter'; 
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 
@@ -37,36 +38,10 @@ export default function Header(menu) {
 
     const [menuStructure, setMenuStructure] = useState([]);
 
-
     useEffect(() => {
-        const buildMenuStructure = () => {
-            const menuItems = menu.menu.menuItems.edges;
-            const menuTree = [];
-
-            // Créer un dictionnaire pour accéder facilement aux items par ID
-            const itemMap = {};
-
-            menuItems.forEach((menuItem) => {
-                const item = { ...menuItem, children: [] };
-                itemMap[menuItem.node.id] = item;
-
-                if (!menuItem.node.parentId) {
-                    menuTree.push(item);
-                }
-            });
-
-            // Ajouter les enfants à leurs parents
-            menuItems.forEach((menuItem) => {
-                const parentId = menuItem.node.parentId;
-                if (parentId && itemMap[parentId]) {
-                    itemMap[parentId].children.push(itemMap[menuItem.node.id]);
-                }
-            });
-
-            setMenuStructure(menuTree);
-        };
-
-        buildMenuStructure();
+        const { buildMenuStructure } = menuAdapter(menu);
+        const menuTree = buildMenuStructure(); 
+        setMenuStructure(menuTree);
     }, [menu]);
 
     return (
@@ -113,11 +88,11 @@ export default function Header(menu) {
                                                             href={child.node.uri}
                                                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                                         >
-                                                            {child.node.menuItem.image && (
+                                                            {child.node.datamenuitem.image && (
                                                                 <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
                                                                     <img
-                                                                        alt={child.node.menuItem.image.node.altText}
-                                                                        src={child.node.menuItem.image.node.sourceUrl}
+                                                                        alt={child.node.datamenuitem.image.node.altText}
+                                                                        src={child.node.datamenuitem.image.node.sourceUrl}
                                                                         className="object-cover object-center"
                                                                     />
                                                                 </div>
@@ -196,12 +171,12 @@ export default function Header(menu) {
                                 <div className="flex h-16 items-center justify-between">
                                     {/* Logo (lg+) */}
                                     <div className="hidden lg:flex lg:flex-1 lg:items-center">
-                                        <a href="#">
+                                        <a href="/">
                                             <span className="sr-only">Siège ergonomique</span>
                                             <img
-                                                alt=""
-                                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                                className="h-8 w-auto"
+                                                alt={menu.menu.datamenu.logo.node.altText}
+                                                src={menu.menu.datamenu.logo.node.sourceUrl}
+                                                className="h-7 w-auto"
                                             />
                                         </a>
                                     </div>
@@ -236,11 +211,11 @@ export default function Header(menu) {
                                                                         <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-16">
                                                                             {category.children.map((item) => (
                                                                                 <div key={item.node.label} className="group relative">
-                                                                                    {item.node.menuItem.image && (
+                                                                                    {item.node.datamenuitem.image && (
                                                                                         <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
                                                                                             <img
-                                                                                                alt={item.node.menuItem.image.node.altText}
-                                                                                                src={item.node.menuItem.image.node.sourceUrl}
+                                                                                                alt={item.node.datamenuitem.image.node.altText}
+                                                                                                src={item.node.datamenuitem.image.node.sourceUrl}
                                                                                                 className="object-cover object-center"
                                                                                             />
                                                                                         </div>
