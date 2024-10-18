@@ -2,13 +2,13 @@ import Footer from "../blocks/navigation/footer";
 import Header from "../blocks/navigation/header";
 import Meta from "../seo/meta";
 
-export default function AppLayout({ children, header }) {
+export default function AppLayout({ children, header, footer }) {
   return (
     <>
       <Meta />
       {header && <Header menu={header} />}
       {children}
-      <Footer />
+      {footer && <Footer menu={footer} />}
     </>
   );
 }

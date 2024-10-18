@@ -13,7 +13,7 @@ import PageLayout from "../components/layouts/page_layout";
 
 export default function Index({ preview, allProducts }) {
   const products = allProducts.nodes;
-console.log(products)
+// console.log(products)
   return (
     <PageLayout preview={preview}>
       <Head>

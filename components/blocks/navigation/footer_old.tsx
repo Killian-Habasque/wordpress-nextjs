@@ -30,13 +30,13 @@ const footerNavigation = {
 
 export default function Footer(menu) {
     const [menuStructure, setMenuStructure] = useState([]);
-
+    
     useEffect(() => {
         const { buildMenuStructure } = menuAdapter(menu);
         const menuTree = buildMenuStructure(); 
         setMenuStructure(menuTree);
     }, [menu]);
-    console.log(menu)
+
     return (
         <footer aria-labelledby="footer-heading" className="border-t border-gray-200 bg-white">
             <h2 id="footer-heading" className="sr-only">
@@ -56,20 +56,44 @@ export default function Footer(menu) {
 
                         {/* Sitemap sections */}
                         <div className="col-span-6 mt-10 grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-8 md:col-start-3 md:row-start-1 md:mt-0 lg:col-span-6 lg:col-start-2">
-                            {menuStructure.map((parent) => (
-                                <div key={parent.node.id}>
-                                    <h3 className="text-sm font-medium text-gray-900">{parent.node.label}</h3>
+                            <div className="grid grid-cols-1 gap-y-12 sm:col-span-2 sm:grid-cols-2 sm:gap-x-8">
+                                <div>
+                                    <h3 className="text-sm font-medium text-gray-900">Products</h3>
                                     <ul role="list" className="mt-6 space-y-6">
-                                        {parent.children.map((child) => (
-                                            <li key={child.node.id} className="text-sm">
-                                                <a href={child.node.uri} className="text-gray-500 hover:text-gray-600">
-                                                    {child.node.label}
+                                        {footerNavigation.products.map((item) => (
+                                            <li key={item.name} className="text-sm">
+                                                <a href={item.href} className="text-gray-500 hover:text-gray-600">
+                                                    {item.name}
                                                 </a>
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
-                            ))}
+                                <div>
+                                    <h3 className="text-sm font-medium text-gray-900">Company</h3>
+                                    <ul role="list" className="mt-6 space-y-6">
+                                        {footerNavigation.company.map((item) => (
+                                            <li key={item.name} className="text-sm">
+                                                <a href={item.href} className="text-gray-500 hover:text-gray-600">
+                                                    {item.name}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="text-sm font-medium text-gray-900">Customer Service</h3>
+                                <ul role="list" className="mt-6 space-y-6">
+                                    {footerNavigation.customerService.map((item) => (
+                                        <li key={item.name} className="text-sm">
+                                            <a href={item.href} className="text-gray-500 hover:text-gray-600">
+                                                {item.name}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
 
                         {/* Newsletter section */}
