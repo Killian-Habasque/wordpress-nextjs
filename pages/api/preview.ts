@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getPreviewPost } from "../../lib/requests/post/queries";
 import { getPreviewProduct } from "../../lib/requests/product/queries";
-
+import { getPreviewPage } from "../../lib/requests/page/queries";
 
 export default async function preview(
   req: NextApiRequest,
@@ -14,7 +14,7 @@ export default async function preview(
   if (
     !process.env.WORDPRESS_PREVIEW_SECRET ||
     secret !== process.env.WORDPRESS_PREVIEW_SECRET ||
-    (!id && !slug)||
+    (!id && !slug) ||
     !type
   ) {
     return res.status(401).json({ message: "Invalid token" });
@@ -25,6 +25,8 @@ export default async function preview(
     item = await getPreviewPost(id || slug, id ? "DATABASE_ID" : "SLUG");
   } else if (type === "product") {
     item = await getPreviewProduct(id || slug, id ? "DATABASE_ID" : "SLUG");
+  } else if (type === "page") {
+    item = await getPreviewPage(id || slug, id ? "DATABASE_ID" : "SLUG");
   } else {
     return res.status(400).json({ message: "Invalid type" });
   }
@@ -41,6 +43,8 @@ export default async function preview(
     },
   });
 
-  res.writeHead(307, { Location: `/${type}/${item.slug || item.databaseId}` });
+  const redirectUrl = type === "page" ? `/${item.slug || item.databaseId}` : `/${type}/${item.slug || item.databaseId}`;
+  
+  res.writeHead(307, { Location: redirectUrl });
   res.end();
 }

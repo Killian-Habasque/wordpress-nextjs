@@ -1,5 +1,6 @@
 
 import { fetchAPI } from "../../fetchAPI";
+import { BLOCK_RELATION_LISTS, BLOCK_SECTION_IMAGE_TEXTE } from "../block/fragments";
 
 export async function getAllPagesWithSlug() {
     const data = await fetchAPI(`
@@ -14,6 +15,24 @@ export async function getAllPagesWithSlug() {
       }
     `);
     return data?.pages;
+}
+
+export async function getPreviewPage(id, idType = "DATABASE_ID") {
+  const data = await fetchAPI(
+    `
+    query PreviewPage($id: ID!, $idType: PageIdType!) {
+      page(id: $id, idType: $idType) {
+        databaseId
+        slug
+        status
+      }
+    }
+    `,
+    {
+      variables: { id, idType },
+    }
+  );
+  return data?.page;
 }
 
 
@@ -40,6 +59,12 @@ export async function getPage(slug, preview, previewData) {
         featuredImage {
           node {
             sourceUrl
+          }
+        }
+        blocks {
+          content {
+            ${BLOCK_SECTION_IMAGE_TEXTE}
+            ${BLOCK_RELATION_LISTS}
           }
         }
       }

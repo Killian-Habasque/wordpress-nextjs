@@ -3,18 +3,7 @@ import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Container from "../components/layouts/container";
-import MoreStories from "../components/more-stories";
-
-import SectionSeparator from "../components/elements/separator";
-import PostTitle from "../components/elements/title";
-
-import Tags from "../components/elements/tags";
-import { CMS_NAME } from "../lib/constants";
-import { getAllProductsWithSlug, getProductAndMoreProducts } from "../lib/requests/product/queries";
 import Content from "../components/layouts/content";
-import Example from "../components/blocks/header";
-import HeroProduct from "../components/blocks/product/hero_product";
 import parse from "html-react-parser";
 import PageLoading from "../components/pages/loading";
 import PageLayout from "../components/layouts/page_layout";
@@ -28,7 +17,6 @@ export default function Page({ page, preview }) {
   if (!router.isFallback && !page?.slug) {
     return <ErrorPage statusCode={404} />;
   }
-
   return (
     <PageLayout preview={preview}>
 
@@ -42,16 +30,8 @@ export default function Page({ page, preview }) {
           </Head>
 
           <div className="bg-gray-50">
-
-            {page.title}
-            {/* <HeroProduct
-              title={page.title}
-              productInfo={page.products}
-              categories={page.categories}
-            /> */}
-
-            {/* <Content content={page.blocks.content} /> */}
-
+            {/* HeroPage */}
+            <Content content={page.blocks.content} />
           </div>
 
         </>
