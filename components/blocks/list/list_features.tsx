@@ -1,4 +1,4 @@
-export default function FeaturesLists({ text, listImage, listText, direction }) {
+export default function ListFeatures({ text, listImage, listText, direction }) {
     const imageOrderClass = direction ? "lg:order-first" : "lg:order-last";
     const textOrderClass = direction ? "lg:order-last" : "lg:order-first";
 
@@ -23,11 +23,11 @@ export default function FeaturesLists({ text, listImage, listText, direction }) 
                     {listImage.map((item, index) => {
                         const image = item.image.node;
                         return (
-                            <div key={index} className="w-full h-full relative">
+                            <div key={index} className="relative w-full h-0 pb-[100%]">
                                 <img
                                     src={image.sourceUrl}
                                     alt={image.altText}
-                                    className="aspect-square object-cover w-full h-full rounded-lg bg-gray-100"
+                                    className="absolute inset-0 w-full h-full object-cover rounded-lg bg-gray-100"
                                 />
                             </div>
                         );

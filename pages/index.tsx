@@ -5,6 +5,8 @@ import PageLayout from "../components/layouts/page_layout";
 import { getPage } from "../lib/requests/page/queries";
 import Content from "../components/layouts/content";
 import parse from "html-react-parser";
+import HeroBackgroundImage from "../components/blocks/hero/hero_bg_image";
+import Dsqdsqdqsdsqd from "../components/blocks/hero/simple_centered_background";
 
 export default function Index({ page, preview }) {
   const fullHead = page?.seo ? parse(page.seo.fullHead) : null;
@@ -14,8 +16,11 @@ export default function Index({ page, preview }) {
       <Head>
         {fullHead}
       </Head>
+      <HeroBackgroundImage title={page.title} description={page.datapage.description} link={page.datapage.link} featuredImage={page.featuredImage}></HeroBackgroundImage>
+
       <Container>
         {/* HeroFrontpage */}
+       
         <Content content={page.blocks.content} />
       </Container>
     </PageLayout>

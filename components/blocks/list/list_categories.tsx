@@ -21,7 +21,7 @@ const categories = [
     },
     { name: 'Sale', href: '#', imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-03.jpg' },
 ]
-export default function ListPosttypeRelation() {
+export default function ListCategories() {
     return (
         <section className="block list_postype_relation">
             <div aria-labelledby="category-heading" className="pt-24 sm:pt-32 xl:mx-auto xl:max-w-7xl xl:px-8">

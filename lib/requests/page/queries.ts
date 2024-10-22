@@ -51,6 +51,10 @@ export async function getPage(slug, preview, previewData) {
         title
         slug
         date
+        datapage {
+          description
+          link
+        }
         seo {
           title
           metaDesc
