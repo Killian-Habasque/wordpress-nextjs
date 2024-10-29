@@ -8,6 +8,7 @@ import parse from "html-react-parser";
 import PageLoading from "../components/pages/loading";
 import PageLayout from "../components/layouts/page_layout";
 import { getAllPagesWithSlug, getPage } from "../lib/requests/page/queries";
+import HeroPage from "../components/blocks/hero/hero_page";
 
 
 export default function Page({ page, preview }) {
@@ -30,7 +31,7 @@ export default function Page({ page, preview }) {
           </Head>
 
           <div className="bg-gray-50">
-            {/* HeroPage */}
+            <HeroPage title={page.title} featuredImage={page.featuredImage}/>
             <Content content={page.blocks.content} />
           </div>
 

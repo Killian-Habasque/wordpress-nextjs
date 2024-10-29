@@ -2,7 +2,7 @@ export default function HeroBackgroundImage({ title, description, link, featured
     const defaultImageUrl = '/images/default-image.png';
     return (
         <section className="block hero_bg_image">
-            <div className="relative bg-gray-900">
+            <div className="relative bg-gray-900 pt-20">
                 <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                     <img
                         alt={featuredImage?.node?.altText || 'Image'}
