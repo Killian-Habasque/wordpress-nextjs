@@ -4,7 +4,7 @@ export default function HeroPage({ title, featuredImage }) {
         <div className="relative bg-gray-800 px-6 sm:px-12 py-32 pt-52 lg:px-40">
             <div className="absolute inset-0 overflow-hidden">
                 <img
-                    alt={featuredImage?.node?.altText || 'Image'}
+                    alt={featuredImage?.node?.altText || 'Siege ergonomique'}
                     src={featuredImage?.node?.sourceUrl || defaultImageUrl}
                     className="h-full w-full object-cover object-center"
                 />

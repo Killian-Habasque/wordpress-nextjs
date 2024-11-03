@@ -44,7 +44,7 @@ export default function Product({ product, moreProducts, preview }) {
             <HeroProduct
               title={product.title}
               productInfo={product.products}
-              categories={product.categories}
+              categories={product.productCategories}
             />
 
             <Content content={product.blocks.content} />
@@ -81,7 +81,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const allProducts = await getAllProductsWithSlug(); // Utiliser la requête pour les produits
 
   return {
-    paths: allProducts.edges.map(({ node }) => `/product/${node.slug}`) || [],
+    paths: allProducts.edges.map(({ node }) => `/produit/${node.slug}`) || [],
     fallback: true,
   };
 };

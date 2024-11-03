@@ -239,16 +239,6 @@ export default function Header(menu) {
                                                         </a>
                                                     )
                                                 ))}
-
-                                                {/* {navigation.pages.map((page) => (
-                                                    <a
-                                                        key={page.name}
-                                                        href={page.href}
-                                                        className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                                                    >
-                                                        {page.name}
-                                                    </a>
-                                                ))} */}
                                             </div>
                                         </PopoverGroup>
                                     </div>
@@ -261,10 +251,10 @@ export default function Header(menu) {
                                         </button>
 
                                         {/* Search */}
-                                        <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                                        {/* <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
                                             <span className="sr-only">Search</span>
                                             <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" />
-                                        </a>
+                                        </a> */}
                                     </div>
 
                                     {/* Logo (lg-) */}
@@ -278,28 +268,19 @@ export default function Header(menu) {
                                     </a>
 
                                     <div className="flex flex-1 items-center justify-end">
-                                        <a href="#" className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
-                                            Search
+                                        <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+                                            <span className="sr-only">Help</span>
+                                            <QuestionMarkCircleIcon aria-hidden="true" className="h-6 w-6" />
+                                        </a>
+                                        <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                                            <span className="sr-only">Search</span>
+                                            <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" />
                                         </a>
 
-                                        <div className="flex items-center lg:ml-8">
-
-                                            <a href="#" className="p-2 text-gray-400 hover:text-gray-500 lg:hidden">
-                                                <span className="sr-only">Help</span>
-                                                <QuestionMarkCircleIcon aria-hidden="true" className="h-6 w-6" />
+                                        <div className="hidden items-center lg:ml-6 md:flex">
+                                            <a href="https://test" className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
+                                                Get started
                                             </a>
-                                            <a href="#" className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
-                                                Help
-                                            </a>
-
-
-                                            <div className="ml-4 flow-root lg:ml-8">
-                                                <a href="#" className="group -m-2 flex items-center p-2">
-                                                    <ShoppingBagIcon aria-hidden="true" className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
-                                                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                                                    <span className="sr-only">items in cart, view bag</span>
-                                                </a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

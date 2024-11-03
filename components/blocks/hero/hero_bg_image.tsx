@@ -5,7 +5,7 @@ export default function HeroBackgroundImage({ title, description, link, featured
             <div className="relative bg-gray-900 pt-20">
                 <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                     <img
-                        alt={featuredImage?.node?.altText || 'Image'}
+                        alt={featuredImage?.node?.altText || 'Siege ergonomique'}
                         src={featuredImage?.node?.sourceUrl || defaultImageUrl}
                         className="h-full w-full object-cover object-center"
                     />
