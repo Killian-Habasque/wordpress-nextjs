@@ -1,6 +1,6 @@
 import SectionImageText from "../blocks/sectionImageText";
-import RelationLists from "../blocks/relationLists";
-import FeaturesLists from "../blocks/featuresLists";
+import RelationLists from "../blocks/list/list_postypes";
+import ListFeatures from "../blocks/list/list_features";
 
 export default function ComponentAdapter(props) {
     const { data, typename } = props
@@ -11,6 +11,6 @@ export default function ComponentAdapter(props) {
         case 'BlocksContentRelationListsLayout':
             return (<RelationLists text={data.text} postypes={data.postType.nodes} />)
         case 'BlocksContentFeaturesListsLayout':
-            return (<FeaturesLists text={data.text} listImage={data.listImage} listText={data.listText} direction={data.direction}/>)
+            return (<ListFeatures text={data.text} listImage={data.listImage} listText={data.listText} direction={data.direction}/>)
     }
 }

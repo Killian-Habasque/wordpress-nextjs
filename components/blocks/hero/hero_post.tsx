@@ -9,7 +9,7 @@ import Categories from '../../elements/categories'
 import PostTitle from '../../elements/title'
 import Date from '../../elements/date'
 import Avatar from '../../elements/avatar'
-import CoverImage from '../../cover-image'
+
 
 
 export default function HeroPost({ title, excerpt, coverImage, author, date, categories }) {
@@ -17,8 +17,6 @@ export default function HeroPost({ title, excerpt, coverImage, author, date, cat
     return (
         <section className="block hero_bg_image">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-
-
 
                 <h1 className="text-6xl md:text-7xl font-bold tracking-tighter leading-none md:leading-none mb-6 text-center md:text-left font-bold tracking-tight text-gray-900">{title}</h1>
 

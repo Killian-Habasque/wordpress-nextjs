@@ -36,7 +36,7 @@ export default function Footer(menu) {
         const menuTree = buildMenuStructure(); 
         setMenuStructure(menuTree);
     }, [menu]);
-    console.log(menu)
+    
     return (
         <footer aria-labelledby="footer-heading" className="border-t border-gray-200 bg-white">
             <h2 id="footer-heading" className="sr-only">

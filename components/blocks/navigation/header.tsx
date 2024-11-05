@@ -26,7 +26,7 @@ import {
     XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import menuAdapter from '../../adapters/menuAdapter'; 
+import menuAdapter from '../../adapters/menuAdapter';
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 
@@ -40,7 +40,7 @@ export default function Header(menu) {
 
     useEffect(() => {
         const { buildMenuStructure } = menuAdapter(menu);
-        const menuTree = buildMenuStructure(); 
+        const menuTree = buildMenuStructure();
         setMenuStructure(menuTree);
     }, [menu]);
 
@@ -56,7 +56,7 @@ export default function Header(menu) {
                 <div className="fixed inset-0 z-40 flex">
                     <DialogPanel
                         transition
-                        className="relative flex w-full max-w-xs transform flex-col overflow-y-auto bg-white pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:-translate-x-full"
+                        className="relative flex w-full max-w-xs transform flex-col overflow-y-auto bg-white/[.975] pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:-translate-x-full"
                     >
                         <div className="flex px-4 pb-2 pt-5">
                             <button
@@ -125,12 +125,11 @@ export default function Header(menu) {
 
 
             {/* Navigation */}
-            <header className="relative z-10 bg-gray-900">
+            <header className="fixed w-full z-10 px-4 pt-2">
                 <nav aria-label="Top">
                     {/* Top navigation */}
-                    <div className="bg-gray-900">
+                    {/* <div className="bg-gray-900">
                         <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-                            {/* Currency selector */}
                             <form>
                                 <div>
                                     <label htmlFor="desktop-currency" className="sr-only">
@@ -162,10 +161,10 @@ export default function Header(menu) {
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Secondary navigation */}
-                    <div className="bg-white shadow-sm">
+                    <div className="bg-white/[.9] shadow-sm overflow-hidden rounded-full border-solid border border-gray-200 ">
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                             <div>
                                 <div className="flex h-16 items-center justify-between">
@@ -176,7 +175,7 @@ export default function Header(menu) {
                                             <img
                                                 alt={menu.menu.datamenu.logo.node.altText}
                                                 src={menu.menu.datamenu.logo.node.sourceUrl}
-                                                className="h-7 w-auto"
+                                                className="max-h-7 w-auto"
                                             />
                                         </a>
                                     </div>
@@ -189,26 +188,26 @@ export default function Header(menu) {
                                                     category.children.length > 0 ? (
                                                         <Popover key={category.node.id} className="flex">
                                                             <div className="relative flex">
-                                                                <PopoverButton className="group relative flex items-center justify-center text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:text-indigo-600">
+                                                                <PopoverButton className="group relative flex items-center justify-center text-sm font-medium outline-none text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:text-indigo-600">
                                                                     {category.node.label}
                                                                     <span
                                                                         aria-hidden="true"
-                                                                        className="absolute inset-x-0 -bottom-px z-30 h-0.5 transition duration-200 ease-out group-data-[open]:bg-indigo-600"
+                                                                        className="absolute inset-x-0 bottom-0.5 z-30 h-0.5 transition duration-200 ease-out group-data-[open]:bg-indigo-600"
                                                                     />
                                                                 </PopoverButton>
                                                             </div>
 
                                                             <PopoverPanel
                                                                 transition
-                                                                className="absolute inset-x-0 top-full text-sm text-gray-500 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+                                                                className="absolute inset-x-0 top-full text-sm text-gray-500 p-4 pt-2 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
                                                             >
                                                                 {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-                                                                <div aria-hidden="true" className="absolute inset-0 top-1/2 bg-white shadow" />
+                                                                <div aria-hidden="true" className="absolute inset-0 top-1/2 shadow m-4 mt-2 rounded-xl" />
 
-                                                                <div className="relative bg-white">
-                                                                    <div className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"><div className="h-px w-full bg-gray-200 transition-colors duration-200 ease-out"></div></div>
+                                                                <div className="relative bg-white/[.975] overflow-hidden rounded-xl border-solid border border-gray-200 ">
+                                                                    {/* <div className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"><div className="h-px w-full bg-gray-200 transition-colors duration-200 ease-out"></div></div> */}
                                                                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                                                                        <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-16">
+                                                                        <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-8">
                                                                             {category.children.map((item) => (
                                                                                 <div key={item.node.label} className="group relative">
                                                                                     {item.node.datamenuitem.image && (
@@ -240,63 +239,48 @@ export default function Header(menu) {
                                                         </a>
                                                     )
                                                 ))}
-
-                                                {/* {navigation.pages.map((page) => (
-                                                    <a
-                                                        key={page.name}
-                                                        href={page.href}
-                                                        className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                                                    >
-                                                        {page.name}
-                                                    </a>
-                                                ))} */}
                                             </div>
                                         </PopoverGroup>
                                     </div>
 
                                     {/* Mobile menu and search (lg-) */}
                                     <div className="flex flex-1 items-center lg:hidden">
-                                        <button type="button" onClick={() => setMobileMenuOpen(true)} className="-ml-2 rounded-md bg-white p-2 text-gray-400">
+                                        <button type="button" onClick={() => setMobileMenuOpen(true)} className="-ml-2 rounded-md p-2 text-gray-400">
                                             <span className="sr-only">Open menu</span>
                                             <Bars3Icon aria-hidden="true" className="h-6 w-6" />
                                         </button>
 
                                         {/* Search */}
-                                        <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                                        {/* <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
                                             <span className="sr-only">Search</span>
                                             <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" />
-                                        </a>
+                                        </a> */}
                                     </div>
 
                                     {/* Logo (lg-) */}
                                     <a href="#" className="lg:hidden">
                                         <span className="sr-only">Siège ergonomique</span>
-                                        <img alt="" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" className="h-8 w-auto" />
+                                        <img
+                                            alt={menu.menu.datamenu.logo.node.altText}
+                                            src={menu.menu.datamenu.logo.node.sourceUrl}
+                                            className="max-h-7 w-auto"
+                                        />
                                     </a>
 
                                     <div className="flex flex-1 items-center justify-end">
-                                        <a href="#" className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
-                                            Search
+                                        <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+                                            <span className="sr-only">Help</span>
+                                            <QuestionMarkCircleIcon aria-hidden="true" className="h-6 w-6" />
+                                        </a>
+                                        <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                                            <span className="sr-only">Search</span>
+                                            <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" />
                                         </a>
 
-                                        <div className="flex items-center lg:ml-8">
-
-                                            <a href="#" className="p-2 text-gray-400 hover:text-gray-500 lg:hidden">
-                                                <span className="sr-only">Help</span>
-                                                <QuestionMarkCircleIcon aria-hidden="true" className="h-6 w-6" />
+                                        <div className="hidden items-center lg:ml-6 md:flex">
+                                            <a href="https://test" className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
+                                                Get started
                                             </a>
-                                            <a href="#" className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
-                                                Help
-                                            </a>
-
-
-                                            <div className="ml-4 flow-root lg:ml-8">
-                                                <a href="#" className="group -m-2 flex items-center p-2">
-                                                    <ShoppingBagIcon aria-hidden="true" className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
-                                                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                                                    <span className="sr-only">items in cart, view bag</span>
-                                                </a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -26,17 +26,52 @@ const GET_PRODUCTS_QUERY = `
   query GET_PRODUCTS {
     products {
       nodes {
+        id
         title
-        blocks {
-          content {
-            ${BLOCK_SECTION_IMAGE_TEXTE}
-            ${BLOCK_RELATION_LISTS}
+        featuredImage {
+          node {
+            sourceUrl
           }
+        }
+        products {
+          description
+          price
         }
       }
     }
   }
 `;
+
+export async function getAllFilters() {
+  const data = await fetchAPI(`
+    {
+      productTags {
+        nodes {
+          id
+          name
+          slug
+        }
+      }
+      brands {
+        nodes {
+          id
+          name
+          slug
+        }
+      }
+      productCategories {
+        edges {
+            node {
+              id
+              name
+              slug
+          }
+        }
+      }
+    }
+  `);
+  return data;
+}
 
 export async function getAllProducts() {
   const data = await fetchAPI(GET_PRODUCTS_QUERY);
@@ -111,14 +146,14 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
           }
         }
       }
-      categories {
+      productCategories {
         edges {
           node {
             name
           }
         }
       }
-      tags {
+      productTags {
         edges {
           node {
             name

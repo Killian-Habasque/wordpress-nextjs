@@ -1,4 +1,4 @@
-export default function RelationLists({ text, postypes }) {
+export default function ListPostypes({ text, postypes }) {
     const defaultImageUrl = '/images/default-image.png';
     return (
         <section className="block section-image-texte">

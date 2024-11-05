@@ -1,41 +1,44 @@
 import Head from "next/head";
 import { GetStaticProps } from "next";
 import Container from "../components/layouts/container";
-import MoreStories from "../components/more-stories";
-import HeroPost from "../components/post-header";
-import Products from "../components/products";
-import RelationLists from "../components/blocks/relationLists";
-
-import { CMS_NAME } from "../lib/constants";
-import { getAllProducts } from "../lib/requests/product/queries";
-import { getAllPostsForHome } from "../lib/requests/post/queries";
 import PageLayout from "../components/layouts/page_layout";
+import { getPage } from "../lib/requests/page/queries";
+import Content from "../components/layouts/content";
+import parse from "html-react-parser";
+import HeroBackgroundImage from "../components/blocks/hero/hero_bg_image";
+import Dsqdsqdqsdsqd from "../components/blocks/hero/simple_centered_background";
 
-export default function Index({ preview, allProducts }) {
-  const products = allProducts.nodes;
-// console.log(products)
+export default function Index({ page, preview }) {
+  const fullHead = page?.seo ? parse(page.seo.fullHead) : null;
+
   return (
     <PageLayout preview={preview}>
       <Head>
-        <title>{`Next.js Blog Example with ${CMS_NAME}`}</title>
+        {fullHead}
       </Head>
+      <HeroBackgroundImage title={page.title} description={page.datapage.description} link={page.datapage.link} featuredImage={page.featuredImage}></HeroBackgroundImage>
+
       <Container>
-        {products && (
-          <Products
-            products={products}
-          />
-        )}  
+        {/* HeroFrontpage */}
+       
+        <Content content={page.blocks.content} />
       </Container>
     </PageLayout>
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  const allPosts = await getAllPostsForHome(preview);
-  const allProducts = await getAllProducts();
+export const getStaticProps: GetStaticProps = async ({
+  params,
+  preview = false,
+  previewData,
+}) => {
+  const data = await getPage('homepage', preview, previewData);
 
   return {
-    props: { allPosts, preview, allProducts },
+    props: {
+      preview,
+      page: data.page
+    },
     revalidate: 10,
   };
 };
