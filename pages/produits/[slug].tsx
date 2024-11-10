@@ -13,7 +13,7 @@ import GridAside from "../../components/layouts/grid_aside";
 import Aside from "../../components/elements/aside";
 import GridProducts from "../../components/layouts/grid_products";
 import { getAllFilters } from "../../lib/requests/product/queries";
-
+import CardProduct from "../../components/blocks/card/card_product";
 
 export default function Page({ filters, productCategory }) {
   const router = useRouter();
@@ -21,6 +21,7 @@ export default function Page({ filters, productCategory }) {
   const [products, setProducts] = useState(productCategory.products.nodes);
   const [pageInfo, setPageInfo] = useState(productCategory.products.pageInfo);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fullHead = productCategory?.seo ? parse(productCategory.seo.fullHead) : null;
 
@@ -28,58 +29,94 @@ export default function Page({ filters, productCategory }) {
     return <ErrorPage statusCode={404} />;
   }
 
+  const handleSearch = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const data = await refetchProductCategory(productCategory.slug, null, 12, searchTerm);
+    setProducts(data.productCategory.products.nodes);
+    setPageInfo(data.productCategory.products.pageInfo);
+    setLoading(false);
+  };
 
   const loadMoreProducts = async () => {
     if (!pageInfo.hasNextPage || loading) return;
 
     setLoading(true);
-    const data = await refetchProductCategory(productCategory.slug, pageInfo.endCursor, 5);
-    const newProducts = data.productCategory.products.nodes;
-    const newPageInfo = data.productCategory.products.pageInfo;
-
-    setProducts((prev) => [...prev, ...newProducts]);
-    setPageInfo(newPageInfo);
+    const data = await refetchProductCategory(productCategory.slug, pageInfo.endCursor, 12, searchTerm);
+    setProducts((prev) => [...prev, ...data.productCategory.products.nodes]);
+    setPageInfo(data.productCategory.products.pageInfo);
     setLoading(false);
   };
 
   return (
     <PageLayout preview={null}>
-
       {router.isFallback ? (
         <PageLoading>Loading…</PageLoading>
       ) : (
-
         <>
-          <Head>
-            {fullHead}
-          </Head>
+          <Head>{fullHead}</Head>
 
           <div className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
             <Breadcrumb />
-            <HeroCategories title={productCategory.name} description={productCategory.description} categories={filters.productCategories} />
+            <HeroCategories
+              title={productCategory.name}
+              description={productCategory.description}
+              categories={filters.productCategories}
+            />
+
+            <div className="my-4">
+              <form onSubmit={handleSearch} className="flex items-center gap-2">
+                <input
+                  type="text"
+                  placeholder="Rechercher un produit..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full border rounded-md px-3 py-2"
+                />
+                <button
+                  type="submit"
+                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400"
+                >
+                  Rechercher
+                </button>
+              </form>
+            </div>
+
             <GridAside>
               <Aside filters={filters} />
-              <GridProducts items={products} />
+              <section aria-labelledby="product-heading" className="layout grid_aside mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
+                <h2 id="product-heading" className="sr-only">
+                  Produits
+                </h2>
 
-              {pageInfo.hasNextPage && (
-                <div className="text-center mt-8">
-                  <button onClick={loadMoreProducts} disabled={loading} className="btn-primary">
-                    {loading ? "Chargement..." : "Charger plus"}
-                  </button>
+                <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
+                  {products.map((product) => (
+                    <CardProduct key={product.id} product={product} />
+                  ))}
                 </div>
-              )}
+                {pageInfo.hasNextPage && (
+                  <div className="text-center mt-8">
+                    <button
+                      onClick={loadMoreProducts}
+                      disabled={loading}
+                      className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                    >
+                      {loading ? "Chargement..." : "Charger plus"}
+                    </button>
+                  </div>
+                )}
+              </section>
             </GridAside>
           </div>
-
         </>
       )}
-
     </PageLayout>
   );
 }
 
+
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const data = await getProductCategory(params?.slug, 5);
+  const data = await getProductCategory(params?.slug, 12);
   const filters = await getAllFilters();
   return {
     props: {

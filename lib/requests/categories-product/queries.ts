@@ -16,7 +16,7 @@ export async function getAllProductCategoriesWithSlug() {
   return data?.productCategories;
 }
 
-export async function refetchProductCategory(slug, cursor, perPage) {
+export async function refetchProductCategory(slug, cursor, perPage, search) {
 
   if (!slug) {
     throw new Error('Slug manquant pour la requête de catégorie');
@@ -24,9 +24,9 @@ export async function refetchProductCategory(slug, cursor, perPage) {
 
   const data = await fetchAPI(
     `
-    query CategoryProductsBySlug($id: ID!, $idType: Product_categoryIdType!, $first: Int!, $after: String) {
+    query CategoryProductsBySlug($id: ID!, $idType: Product_categoryIdType!, $first: Int!, $after: String, $search: String) {
       productCategory(id: $id, idType: $idType) {
-        products(first: $first, after: $after) { 
+        products(first: $first, after: $after, where: {search: $search}) { 
           nodes {
             id
             title
@@ -49,8 +49,9 @@ export async function refetchProductCategory(slug, cursor, perPage) {
       variables: {
         id: slug,
         idType: "SLUG",
-        first: perPage ?? 10, 
-        after: cursor
+        first: perPage ?? 12, 
+        after: cursor,
+        search: search
       },
     },
   );
@@ -98,7 +99,7 @@ export async function getProductCategory(slug, perPage) {
       variables: {
         id: slug,
         idType: "SLUG",
-        first: perPage ?? 10, 
+        first: perPage ?? 12, 
       },
     },
   );

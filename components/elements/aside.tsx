@@ -104,7 +104,7 @@ export default function Aside({ filters }) {
                                     <DisclosurePanel className="px-4 pb-2 pt-4">
                                         <div className="space-y-6">
                                             {filters.productTags.nodes.map((option, optionIdx) => (
-                                                <div key={option.value} className="flex items-center">
+                                                <div key={optionIdx} className="flex items-center">
                                                     <input
                                                         defaultValue={option.value}
                                                         id={`${optionIdx}-mobile`}
@@ -124,8 +124,8 @@ export default function Aside({ filters }) {
                                 </fieldset>
                             </Disclosure>
 
-                            {filters_static.map((section) => (
-                                <Disclosure key={section.name} as="div" className="border-t border-gray-200 pb-4 pt-4">
+                            {filters_static.map((section, sectionIdx) => (
+                                <Disclosure key={sectionIdx} as="div" className="border-t border-gray-200 pb-4 pt-4">
                                     <fieldset>
                                         <legend className="w-full px-2">
                                             <DisclosureButton className="group flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
@@ -141,7 +141,7 @@ export default function Aside({ filters }) {
                                         <DisclosurePanel className="px-4 pb-2 pt-4">
                                             <div className="space-y-6">
                                                 {section.options.map((option, optionIdx) => (
-                                                    <div key={option.value} className="flex items-center">
+                                                    <div key={optionIdx} className="flex items-center">
                                                         <input
                                                             defaultValue={option.value}
                                                             id={`${section.id}-${optionIdx}-mobile`}
@@ -210,7 +210,7 @@ export default function Aside({ filters }) {
                                 <legend className="block text-sm font-medium text-gray-900">Marques</legend>
                                 <div className="space-y-3 pt-6">
                                     {filters.brands.nodes.map((option, optionIdx) => (
-                                        <div key={option.slug} className="flex items-center">
+                                        <div key={optionIdx} className="flex items-center">
                                             <input
                                                 defaultValue={option.slug}
                                                 id={`${option.id}-${optionIdx}`}
@@ -231,7 +231,7 @@ export default function Aside({ filters }) {
                                 <legend className="block text-sm font-medium text-gray-900">Filtres</legend>
                                 <div className="space-y-3 pt-6">
                                     {filters.productTags.nodes.map((option, optionIdx) => (
-                                        <div key={option.slug} className="flex items-center">
+                                        <div key={optionIdx} className="flex items-center">
                                             <input
                                                 defaultValue={option.value}
                                                 id={`${option.id}-${optionIdx}`}
