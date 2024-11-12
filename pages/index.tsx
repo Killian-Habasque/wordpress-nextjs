@@ -6,7 +6,6 @@ import { getPage } from "../lib/requests/page/queries";
 import Content from "../components/layouts/content";
 import parse from "html-react-parser";
 import HeroBackgroundImage from "../components/blocks/hero/hero_bg_image";
-import Dsqdsqdqsdsqd from "../components/blocks/hero/simple_centered_background";
 
 export default function Index({ page, preview }) {
   const fullHead = page?.seo ? parse(page.seo.fullHead) : null;

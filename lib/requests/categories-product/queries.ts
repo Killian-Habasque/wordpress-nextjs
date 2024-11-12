@@ -16,6 +16,53 @@ export async function getAllProductCategoriesWithSlug() {
   return data?.productCategories;
 }
 
+export async function refetchProductCategory2(slug, cursor, perPage, search, tagIds) {
+
+  if (!slug) {
+    throw new Error('Slug manquant pour la requête de catégorie');
+  }
+
+  const data = await fetchAPI(
+    `
+    query CategoryProductsBySlugAndTags($id: ID!, $idType: Product_categoryIdType!, $first: Int!, $after: String, $tagIds: [ID!], $search: String) {
+      productCategory(id: $id, idType: $idType) {
+        slug
+        products(first: $first, after: $after, where: {productTagId: $tagIds, search: $search}) {
+          nodes {
+            id
+            title
+            slug
+            uri
+            featuredImage {
+              node {
+                sourceUrl
+              }
+            }
+          }
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+        }
+      }
+    }
+    `,
+    {
+      variables: {
+        id: slug,
+        idType: "SLUG",
+        first: perPage ?? 12,
+        after: cursor,
+        search: search,
+        tagIds: tagIds || null, 
+      },
+    },
+  );
+
+  return data;
+}
+
+
 export async function refetchProductCategory(slug, cursor, perPage, search) {
 
   if (!slug) {
@@ -31,6 +78,7 @@ export async function refetchProductCategory(slug, cursor, perPage, search) {
             id
             title
             slug
+            uri
             featuredImage {
               node {
                 sourceUrl
@@ -68,15 +116,16 @@ export async function getProductCategory(slug, perPage) {
         name
         description
         seo {
-            title
-            metaDesc
-            fullHead
+          title
+          metaDesc
+          fullHead
         }
         products(first: $first) { 
           nodes {
             id
             title
             slug
+            uri
             featuredImage {
               node {
                 sourceUrl

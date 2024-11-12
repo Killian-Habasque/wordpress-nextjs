@@ -45,11 +45,24 @@ const GET_PRODUCTS_QUERY = `
 export async function getAllFilters() {
   const data = await fetchAPI(`
     {
-      productTags {
-        nodes {
-          id
-          name
-          slug
+      productTags(first: 100) {
+        edges {
+          node {
+            id
+            name
+            slug
+            parentId
+            children {
+              edges {
+                node {
+                  databaseId
+                  id
+                  name
+                  slug
+                }
+              }
+            }
+          }
         }
       }
       brands {

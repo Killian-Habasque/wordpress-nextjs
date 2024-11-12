@@ -15,11 +15,16 @@ const datapage = {
 
 export default function Products({ products, filters }) {
 
+  const extendedCategories = [
+    { node: { slug: "", name: "Tout" } }, 
+    ...filters.productCategories.edges,
+  ];
+  
   return (
     <PageLayout preview={null}>
       <div className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
         <Breadcrumb />
-        <HeroCategories title={datapage.title} description={datapage.description} categories={filters.productCategories} />
+        <HeroCategories title={datapage.title} description={datapage.description} categories={{ edges: extendedCategories }} />
         <GridAside>
           <Aside filters={filters} />
           <GridProducts items={products} />

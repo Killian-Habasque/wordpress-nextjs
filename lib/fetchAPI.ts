@@ -2,7 +2,7 @@ const API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 
 export async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
     const headers = { "Content-Type": "application/json" };
-    console.log("API_URL:", API_URL);
+
     if (process.env.WORDPRESS_AUTH_REFRESH_TOKEN) {
         headers["Authorization"] =
             `Bearer ${process.env.WORDPRESS_AUTH_REFRESH_TOKEN}`;
