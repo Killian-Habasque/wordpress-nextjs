@@ -13,10 +13,16 @@ export async function getAllProductCategoriesWithSlug() {
         }
       }
     `);
-  return data?.productCategories;
+
+  const filteredCategories = data.productCategories.edges.filter(
+    (category) => category.node.slug !== "produits"
+  );
+  return {
+    edges: filteredCategories,
+  };
 }
 
-export async function refetchProductCategory2(slug, cursor, perPage, search, tagIds) {
+export async function refetchProductCategory(slug, cursor, perPage, search, tagIds) {
 
   if (!slug) {
     throw new Error('Slug manquant pour la requête de catégorie');
@@ -51,10 +57,10 @@ export async function refetchProductCategory2(slug, cursor, perPage, search, tag
       variables: {
         id: slug,
         idType: "SLUG",
-        first: perPage ?? 12,
+        first: perPage || 12,
         after: cursor,
         search: search,
-        tagIds: tagIds || null, 
+        tagIds: tagIds || null,
       },
     },
   );
@@ -63,49 +69,45 @@ export async function refetchProductCategory2(slug, cursor, perPage, search, tag
 }
 
 
-export async function refetchProductCategory(slug, cursor, perPage, search) {
 
-  if (!slug) {
-    throw new Error('Slug manquant pour la requête de catégorie');
-  }
+
+export async function getProducts(cursor, perPage, search, tagIds) {
 
   const data = await fetchAPI(
     `
-    query CategoryProductsBySlug($id: ID!, $idType: Product_categoryIdType!, $first: Int!, $after: String, $search: String) {
-      productCategory(id: $id, idType: $idType) {
-        products(first: $first, after: $after, where: {search: $search}) { 
-          nodes {
-            id
-            title
-            slug
-            uri
-            featuredImage {
-              node {
-                sourceUrl
-              }
+    query getAllProducts($first: Int!, $after: String, $tagIds: [ID!], $search: String) {
+      products(first: $first, after: $after, where: {productTagId: $tagIds, search: $search}) {
+        nodes {
+          id
+          title
+          slug
+          uri
+          featuredImage {
+            node {
+              sourceUrl
             }
           }
-          pageInfo {
-            endCursor
-            hasNextPage
-          }
+        }
+        pageInfo {
+          endCursor
+          hasNextPage
         }
       }
     }
-    `,
+      `,
     {
       variables: {
-        id: slug,
-        idType: "SLUG",
-        first: perPage ?? 12, 
+        first: perPage || 12,
         after: cursor,
-        search: search
+        search: search,
+        tagIds: tagIds || null,
       },
     },
   );
 
   return data;
 }
+
 
 export async function getProductCategory(slug, perPage) {
 
@@ -148,7 +150,7 @@ export async function getProductCategory(slug, perPage) {
       variables: {
         id: slug,
         idType: "SLUG",
-        first: perPage ?? 12, 
+        first: perPage || 12,
       },
     },
   );

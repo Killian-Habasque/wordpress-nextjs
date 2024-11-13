@@ -83,6 +83,19 @@ export async function getAllFilters() {
       }
     }
   `);
+  const filteredCategories = data.productCategories.edges.filter(
+    (category) => category.node.slug !== "produits"
+  );
+  const extendedCategories = [
+    { node: { slug: "", name: "Tout" } },
+    ...filteredCategories,
+  ];
+  return {
+    ...data,
+    productCategories: {
+      edges: extendedCategories,
+    },
+  };
   return data;
 }
 

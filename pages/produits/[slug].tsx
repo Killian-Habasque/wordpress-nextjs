@@ -6,7 +6,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import parse from "html-react-parser";
 import PageLoading from "../../components/pages/loading";
 import PageLayout from "../../components/layouts/page_layout";
-import { getAllProductCategoriesWithSlug, getProductCategory, refetchProductCategory, refetchProductCategory2 } from "../../lib/requests/categories-product/queries";
+import { getAllProductCategoriesWithSlug, getProductCategory, refetchProductCategory } from "../../lib/requests/categories-product/queries";
 import Breadcrumb from "../../components/elements/breadcrumb";
 import HeroCategories from "../../components/blocks/hero/hero_categories";
 import GridAside from "../../components/layouts/grid_aside";
@@ -14,81 +14,50 @@ import Aside from "../../components/elements/aside";
 import GridProducts from "../../components/layouts/grid_products";
 import { getAllFilters } from "../../lib/requests/product/queries";
 import CardProduct from "../../components/blocks/card/card_product";
+import { useProductCategory } from "../../components/hooks/useCategoryProduct";
+
+
+const fetchAndUpdateProducts = async ({
+  slug,
+  cursor = null,
+  searchTerm = "",
+  tags = [],
+  setProducts,
+  setPageInfo,
+  setLoading,
+}) => {
+  setLoading(true);
+  try {
+    const data = await refetchProductCategory(slug, cursor, 12, searchTerm, tags.join(","));
+    setProducts((prev) => (cursor ? [...prev, ...data.productCategory.products.nodes] : data.productCategory.products.nodes));
+    setPageInfo(data.productCategory.products.pageInfo);
+  } finally {
+    setLoading(false);
+  }
+};
 
 export default function Page({ filters, productCategory }) {
+
+  const {
+    products,
+    pageInfo,
+    loading,
+    searchTerm,
+    setSearchTerm,
+    handleSearch,
+    loadMoreProducts,
+    handleTagChange,
+  } = useProductCategory(productCategory, fetchAndUpdateProducts);
+ 
   const router = useRouter();
-
-  const [products, setProducts] = useState(productCategory?.products?.nodes || []);
-  const [pageInfo, setPageInfo] = useState(productCategory?.products?.pageInfo);
-  const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedTags, setSelectedTags] = useState([]);
-
-  const fullHead = productCategory?.seo ? parse(productCategory.seo.fullHead) : null;
 
   if (!router.isFallback && !productCategory?.slug) {
     return <ErrorPage statusCode={404} />;
   }
-  const extendedCategories = [
-    { node: { slug: "", name: "Tout" } }, 
-    ...filters.productCategories.edges,
-  ];
-  
-  const handleSearch = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    const data = await refetchProductCategory2(productCategory.slug, null, 12, searchTerm, selectedTags.join(","));
-    setProducts(data.productCategory.products.nodes);
-    setPageInfo(data.productCategory.products.pageInfo);
-    setLoading(false);
-  };
 
-  const loadMoreProducts = async () => {
-    if (!pageInfo.hasNextPage || loading) return;
 
-    setLoading(true);
-    const data = await refetchProductCategory2(productCategory.slug, pageInfo.endCursor, 12, searchTerm, selectedTags.join(","));
-    setProducts((prev) => [...prev, ...data.productCategory.products.nodes]);
-    setPageInfo(data.productCategory.products.pageInfo);
-    setLoading(false);
-  };
+  const fullHead = productCategory?.seo ? parse(productCategory.seo.fullHead) : null;
 
-  useEffect(() => {
-    const fetchCategoryProducts = async () => {
-      if (!router.query.slug) return; 
-      setLoading(true);
-      const data = await refetchProductCategory2(router.query.slug, null, 12, searchTerm, selectedTags.join(","));
-      setProducts(data.productCategory.products.nodes);
-      setPageInfo(data.productCategory.products.pageInfo);
-      setLoading(false);
-    };
-
-    fetchCategoryProducts();
-  }, [router.query.slug]);
-
-  const executeRefetch = async (tags) => {
-    setLoading(true);
-    const data = await refetchProductCategory2(
-      productCategory.slug, 
-      null, 
-      12, 
-      searchTerm, 
-      tags.join(",")
-    );
-    setProducts(data.productCategory.products.nodes);
-    setPageInfo(data.productCategory.products.pageInfo);
-    setLoading(false);
-  };
-
-  const handleTagChange = (newTag) => {
-    setSelectedTags((prev) => {
-      const newTags = prev.includes(newTag)
-        ? prev.filter((tag) => tag !== newTag)
-        : [...prev, newTag];
-      executeRefetch(newTags);
-      return newTags;
-    });
-  };
 
 
   return (
@@ -104,7 +73,7 @@ export default function Page({ filters, productCategory }) {
             <HeroCategories
               title={productCategory.name}
               description={productCategory.description}
-              categories={{ edges: extendedCategories }}
+              categories={filters.productCategories}
             />
 
             <div className="my-4">
@@ -161,6 +130,9 @@ export default function Page({ filters, productCategory }) {
 
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  if (params?.slug === "produits") {
+    return {notFound: true};
+  }
   const data = await getProductCategory(params?.slug, 12);
   const filters = await getAllFilters();
   return {
@@ -175,8 +147,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const allCategories = await getAllProductCategoriesWithSlug();
+
   return {
-    paths: allCategories.edges.map(({ node }) => `/produits/${node.slug}`) || [],
+    paths: allCategories.edges.map(({ node }) => `/produits/${node.slug}`),
     fallback: true,
   };
 };
