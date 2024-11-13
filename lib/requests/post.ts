@@ -1,4 +1,4 @@
-import { fetchAPI } from "../../fetchAPI";
+import { fetchAPI } from "../fetchAPI";
 
 
 export async function getPreviewPost(id, idType = "DATABASE_ID") {

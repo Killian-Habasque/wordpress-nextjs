@@ -2,12 +2,16 @@ import Link from "next/link";
 
 export default function Categories({ categories }) {
   return (
-    categories && categories.edges && categories.edges.length > 0 ? (
+    categories && categories && categories.length > 0 ? (
       <nav className="flex flex-wrap gap-2 mt-4">
-        {categories.edges.map((category, index) => (
+        {categories.map((category, index) => (
           <Link
             key={index}
-            className="bg-indigo-600 text-white py-1 px-3 rounded-full text-sm"
+            className={`py-2 px-3 text-sm font-medium rounded-full  ${
+              category.current
+                ? "bg-indigo-400 text-white"
+                : "bg-indigo-600 text-white hover:bg-indigo-400"
+            }`}
             href={`/produits/${category.node.slug}`}
           >
             {category.node.name}

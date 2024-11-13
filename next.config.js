@@ -26,6 +26,12 @@ module.exports = {
         pathname: '/avatar/**',
       },
       {
+        protocol: 'https',
+        hostname: 'secure.gravatar.com',
+        port: '',
+        pathname: '/avatar/**',
+      },
+      {
         protocol: 'http',
         hostname: 'test-graphql-old.local',
         port: '',

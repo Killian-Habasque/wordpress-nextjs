@@ -11,7 +11,7 @@ import PostTitle from "../../components/elements/title";
 
 import Tags from "../../components/elements/tags";
 import { CMS_NAME } from "../../lib/constants";
-import { getAllProductsWithSlug, getProductAndMoreProducts } from "../../lib/requests/product/queries";
+import { getAllProductsWithSlug, getProductAndMoreProducts } from "../../lib/requests/product";
 import Content from "../../components/layouts/content";
 import Example from "../../components/blocks/header";
 import HeroProduct from "../../components/blocks/hero/hero_product";

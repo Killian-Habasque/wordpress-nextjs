@@ -6,38 +6,21 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import parse from "html-react-parser";
 import PageLoading from "../../components/pages/loading";
 import PageLayout from "../../components/layouts/page_layout";
-import { getAllProductCategoriesWithSlug, getProductCategory, refetchProductCategory } from "../../lib/requests/categories-product/queries";
+import { getAllProductCategoriesWithSlug, getCategoryProduct } from "../../lib/requests/category-product";
 import Breadcrumb from "../../components/elements/breadcrumb";
 import HeroCategories from "../../components/blocks/hero/hero_categories";
 import GridAside from "../../components/layouts/grid_aside";
 import Aside from "../../components/elements/aside";
-import GridProducts from "../../components/layouts/grid_products";
-import { getAllFilters } from "../../lib/requests/product/queries";
-import CardProduct from "../../components/blocks/card/card_product";
+import { getAllFilters } from "../../lib/requests/product";
 import { useProductCategory } from "../../components/hooks/useCategoryProduct";
+import SearchForm from "../../components/blocks/form/search-form";
+import ProductsGrid from "../../components/blocks/grid/grid-products";
 
-
-const fetchAndUpdateProducts = async ({
-  slug,
-  cursor = null,
-  searchTerm = "",
-  tags = [],
-  setProducts,
-  setPageInfo,
-  setLoading,
-}) => {
-  setLoading(true);
-  try {
-    const data = await refetchProductCategory(slug, cursor, 12, searchTerm, tags.join(","));
-    setProducts((prev) => (cursor ? [...prev, ...data.productCategory.products.nodes] : data.productCategory.products.nodes));
-    setPageInfo(data.productCategory.products.pageInfo);
-  } finally {
-    setLoading(false);
-  }
-};
 
 export default function Page({ filters, productCategory }) {
-
+  if (!productCategory) {
+    return <ErrorPage statusCode={404} />;
+  }
   const {
     products,
     pageInfo,
@@ -47,18 +30,10 @@ export default function Page({ filters, productCategory }) {
     handleSearch,
     loadMoreProducts,
     handleTagChange,
-  } = useProductCategory(productCategory, fetchAndUpdateProducts);
- 
+  } = useProductCategory(productCategory);
+
   const router = useRouter();
-
-  if (!router.isFallback && !productCategory?.slug) {
-    return <ErrorPage statusCode={404} />;
-  }
-
-
   const fullHead = productCategory?.seo ? parse(productCategory.seo.fullHead) : null;
-
-
 
   return (
     <PageLayout preview={null}>
@@ -71,56 +46,22 @@ export default function Page({ filters, productCategory }) {
           <div className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
             <Breadcrumb />
             <HeroCategories
-              title={productCategory.name}
-              description={productCategory.description}
+              productCategory={productCategory}
               categories={filters.productCategories}
             />
 
             <div className="my-4">
-              <form onSubmit={handleSearch} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  placeholder="Rechercher un produit..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full border rounded-md px-3 py-2"
+              <SearchForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearch={handleSearch} />
+              <GridAside>
+                <Aside filters={filters} onTagChange={handleTagChange} />
+                <ProductsGrid
+                  products={products}
+                  pageInfo={pageInfo}
+                  loadMoreProducts={loadMoreProducts}
+                  loading={loading}
                 />
-                <button
-                  type="submit"
-                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400"
-                >
-                  Rechercher
-                </button>
-              </form>
+              </GridAside>
             </div>
-
-            <GridAside>
-              <Aside filters={filters} onTagChange={handleTagChange} />
-              <section aria-labelledby="product-heading" className="layout grid_aside mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
-                <h2 id="product-heading" className="sr-only">
-                  Produits
-                </h2>
-
-                <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
-                  {products && products.length > 0 ? (
-                    products.map((product) => <CardProduct key={product.id} product={product} />)
-                  ) : (
-                    <p>Aucun produit trouvé.</p>
-                  )}
-                </div>
-                {pageInfo.hasNextPage && (
-                  <div className="text-center mt-8">
-                    <button
-                      onClick={loadMoreProducts}
-                      disabled={loading}
-                      className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-                    >
-                      {loading ? "Chargement..." : "Charger plus"}
-                    </button>
-                  </div>
-                )}
-              </section>
-            </GridAside>
           </div>
         </>
       )}
@@ -130,10 +71,12 @@ export default function Page({ filters, productCategory }) {
 
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  if (params?.slug === "produits") {
-    return {notFound: true};
+  const data = await getCategoryProduct(params?.slug, null, 12, null, null);
+  if (!data?.productCategory || data?.productCategory.slug === "produits") {
+    return {
+      notFound: true,
+    };
   }
-  const data = await getProductCategory(params?.slug, 12);
   const filters = await getAllFilters();
   return {
     props: {

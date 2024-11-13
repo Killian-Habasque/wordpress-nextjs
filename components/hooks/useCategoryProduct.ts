@@ -1,11 +1,28 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { refetchProductCategory } from "../../lib/requests/categories-product/queries";
+import { getCategoryProduct } from "../../lib/requests/category-product";
 
 
+const fetchAndUpdateProducts = async ({
+    slug,
+    cursor = null,
+    searchTerm = "",
+    tags = [],
+    setProducts,
+    setPageInfo,
+    setLoading,
+  }) => {
+    setLoading(true);
+    try {
+        const data = await getCategoryProduct(slug, cursor, 12, searchTerm, tags.join(","));
+        setProducts((prev) => (cursor ? [...prev, ...data.productCategory.products.nodes] : data.productCategory.products.nodes));
+        setPageInfo(data.productCategory.products.pageInfo);
+    } finally {
+        setLoading(false);
+    }
+  };
 
-
-export const useProductCategory = (initialCategory, fetchAndUpdateProducts) => {
+export const useProductCategory = (initialCategory) => {
     const router = useRouter();
     const [products, setProducts] = useState(initialCategory?.products?.nodes || null);
     const [pageInfo, setPageInfo] = useState(initialCategory?.products?.pageInfo || null);

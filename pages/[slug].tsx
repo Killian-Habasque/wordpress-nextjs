@@ -7,7 +7,7 @@ import Content from "../components/layouts/content";
 import parse from "html-react-parser";
 import PageLoading from "../components/pages/loading";
 import PageLayout from "../components/layouts/page_layout";
-import { getAllPagesWithSlug, getPage } from "../lib/requests/page/queries";
+import { getAllPagesWithSlug, getPage } from "../lib/requests/page";
 import HeroPage from "../components/blocks/hero/hero_page";
 
 

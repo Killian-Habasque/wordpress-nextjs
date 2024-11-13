@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getPreviewPost } from "../../lib/requests/post/queries";
-import { getPreviewProduct } from "../../lib/requests/product/queries";
-import { getPreviewPage } from "../../lib/requests/page/queries";
+import { getPreviewPost } from "../../lib/requests/post";
+import { getPreviewProduct } from "../../lib/requests/product";
+import { getPreviewPage } from "../../lib/requests/page";
 
 export default async function preview(
   req: NextApiRequest,
