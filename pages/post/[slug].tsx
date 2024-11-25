@@ -8,7 +8,7 @@ import SectionSeparator from "../../components/elements/separator";
 import PostTitle from "../../components/elements/title";
 import Tags from "../../components/elements/tags";
 import { CMS_NAME } from "../../lib/constants";
-import { getAllPostsWithSlug, getPostAndMorePosts } from "../../lib/requests/post/queries";
+import { getAllPostsWithSlug, getPostAndMorePosts } from "../../lib/requests/post";
 import HeroPost from "../../components/blocks/hero/hero_post";
 import PageLoading from "../../components/pages/loading";
 import PageLayout from "../../components/layouts/page_layout";

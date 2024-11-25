@@ -35,7 +35,7 @@ export default function HeroPost({ title, excerpt, coverImage, author, date, cat
                     />
                 </div>
                 <div className="mb-6">
-                    <Categories categories={categories} />
+                    <Categories categories={categories.edges} />
                 </div>
 
 

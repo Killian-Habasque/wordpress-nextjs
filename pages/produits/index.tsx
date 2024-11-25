@@ -1,42 +1,69 @@
-import { GetStaticProps } from 'next'
-import { getAllFilters, getAllProducts } from '../../lib/requests/product/queries'
-import GridAside from '../../components/layouts/grid_aside'
-import GridProducts from '../../components/layouts/grid_products'
-import Breadcrumb from '../../components/elements/breadcrumb'
-import Aside from '../../components/elements/aside'
-import HeroCategories from '../../components/blocks/hero/hero_categories'
-import PageLayout from '../../components/layouts/page_layout'
+import React from "react";
+import Head from "next/head";
+import { GetStaticProps } from "next";
+import parse from "html-react-parser";
+import PageLayout from "../../components/layouts/page_layout";
+import { getCategoryProduct } from "../../lib/requests/category-product";
+import Breadcrumb from "../../components/elements/breadcrumb";
+import HeroCategories from "../../components/blocks/hero/hero_categories";
+import GridAside from "../../components/layouts/grid_aside";
+import Aside from "../../components/elements/aside";
+import { getAllFilters } from "../../lib/requests/product";
+import { useProductCategory } from "../../components/hooks/useCategoryProduct";
+import SearchForm from "../../components/blocks/form/search-form";
+import ProductsGrid from "../../components/blocks/grid/grid-products";
 
 
-const datapage = {
-  title: 'Produits',
-  description: 'Checkout out the latest release of Basic Tees, new and improved with four openings!',
-}
+export default function Page({ filters, productCategory }) {
+  const {
+    products,
+    pageInfo,
+    loading,
+    searchTerm,
+    setSearchTerm,
+    handleSearch,
+    loadMoreProducts,
+    handleTagChange,
+  } = useProductCategory(productCategory);
 
-export default function Products({ products, filters }) {
+  const fullHead = productCategory?.seo ? parse(productCategory.seo.fullHead) : null;
 
   return (
     <PageLayout preview={null}>
+
+      <Head>{fullHead}</Head>
+
       <div className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
         <Breadcrumb />
-        <HeroCategories title={datapage.title} description={datapage.description} categories={filters.productCategories} />
-        <GridAside>
-          <Aside filters={filters} />
-          <GridProducts items={products} />
-        </GridAside>
+        <HeroCategories
+          productCategory={productCategory}
+          categories={filters.productCategories}
+        />
+
+        <div className="my-4">
+          <SearchForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearch={handleSearch} />
+          <GridAside>
+            <Aside filters={filters} onTagChange={handleTagChange} />
+            <ProductsGrid
+              products={products}
+              pageInfo={pageInfo}
+              loadMoreProducts={loadMoreProducts}
+              loading={loading}
+            />
+          </GridAside>
+        </div>
       </div>
     </PageLayout>
-  )
+  );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const data = await getAllProducts();
+  const data = await getCategoryProduct('produits', null, 12, null, null);
   const filters = await getAllFilters();
-
   return {
     props: {
-      products: data.nodes,
-      filters: filters
+      productCategory: data.productCategory,
+      filters: filters,
     },
     revalidate: 10,
   };

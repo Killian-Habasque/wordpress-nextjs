@@ -1,6 +1,6 @@
 
-import { fetchAPI } from "../../fetchAPI";
-import { BLOCK_RELATION_LISTS, BLOCK_SECTION_IMAGE_TEXTE } from "../block/fragments";
+import { fetchAPI } from "../fetchAPI";
+import { BLOCK_RELATION_LISTS, BLOCK_SECTION_IMAGE_TEXTE } from "./block/fragments";
 
 export async function getAllPagesWithSlug() {
     const data = await fetchAPI(`

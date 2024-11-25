@@ -1,5 +1,5 @@
 
-import { fetchAPI } from "../../fetchAPI";
+import { fetchAPI } from "../fetchAPI";
 
 export async function getAllCategoriesWithSlug() {
     const data = await fetchAPI(`

@@ -71,7 +71,7 @@ export default function HeroProduct({ title, categories, productInfo }) {
                     <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
                         <h1 className="text-6xl font-bold tracking-tight text-gray-900 mb-6 mt-6 leading-none">{title}</h1>
                         {categories && (
-                            <Categories categories={categories} />
+                            <Categories categories={categories.edges} />
                         )}
                         {productInfo.price && (
                             <div className="mt-3">
