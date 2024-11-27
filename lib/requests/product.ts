@@ -1,6 +1,6 @@
 
 import { fetchAPI } from "../fetchAPI";
-import { BLOCK_SECTION_IMAGE_TEXTE, BLOCK_RELATION_LISTS, BLOCK_FEATURES_LISTS } from "./block/fragments";
+import { BLOCK_SECTION_IMAGE_TEXT, BLOCK_RELATION_LISTS, BLOCK_FEATURES_LISTS, BLOCK_SECTION_TEXT } from "./block/fragments";
 
 
 export async function getPreviewProduct(id, idType = "DATABASE_ID") {
@@ -148,7 +148,8 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
       }
       blocks {
         content {
-          ${BLOCK_SECTION_IMAGE_TEXTE}
+          ${BLOCK_SECTION_TEXT}
+          ${BLOCK_SECTION_IMAGE_TEXT}
           ${BLOCK_RELATION_LISTS}
           ${BLOCK_FEATURES_LISTS}
         }

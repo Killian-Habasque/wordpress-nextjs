@@ -23,7 +23,7 @@ export default async function preview(
   let item;
   if (type === "post") {
     item = await getPreviewPost(id || slug, id ? "DATABASE_ID" : "SLUG");
-  } else if (type === "product") {
+  } else if (type === "produit") {
     item = await getPreviewProduct(id || slug, id ? "DATABASE_ID" : "SLUG");
   } else if (type === "page") {
     item = await getPreviewPage(id || slug, id ? "DATABASE_ID" : "SLUG");

@@ -1,4 +1,4 @@
-export const BLOCK_SECTION_IMAGE_TEXTE = `
+export const BLOCK_SECTION_IMAGE_TEXT = `
   ... on BlocksContentSectionImageTexteLayout {
     __typename
     direction
@@ -9,6 +9,13 @@ export const BLOCK_SECTION_IMAGE_TEXTE = `
         sourceUrl
       }
     }
+  }
+`;
+
+export const BLOCK_SECTION_TEXT = `
+  ... on BlocksContentSectionTextLayout {
+    __typename
+    text
   }
 `;
 
