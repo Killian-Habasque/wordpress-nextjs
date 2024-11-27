@@ -1,6 +1,6 @@
 
-import { fetchAPI } from "../../fetchAPI";
-import { BLOCK_SECTION_IMAGE_TEXTE, BLOCK_RELATION_LISTS, BLOCK_FEATURES_LISTS } from "../block/fragments";
+import { fetchAPI } from "../fetchAPI";
+import { BLOCK_SECTION_IMAGE_TEXT, BLOCK_RELATION_LISTS, BLOCK_FEATURES_LISTS, BLOCK_SECTION_TEXT } from "./block/fragments";
 
 
 export async function getPreviewProduct(id, idType = "DATABASE_ID") {
@@ -45,11 +45,24 @@ const GET_PRODUCTS_QUERY = `
 export async function getAllFilters() {
   const data = await fetchAPI(`
     {
-      productTags {
-        nodes {
-          id
-          name
-          slug
+      productTags(first: 100) {
+        edges {
+          node {
+            id
+            name
+            slug
+            parentId
+            children {
+              edges {
+                node {
+                  databaseId
+                  id
+                  name
+                  slug
+                }
+              }
+            }
+          }
         }
       }
       brands {
@@ -70,6 +83,19 @@ export async function getAllFilters() {
       }
     }
   `);
+  const filteredCategories = data.productCategories.edges.filter(
+    (category) => category.node.slug !== "produits"
+  );
+  const extendedCategories = [
+    { node: { slug: "", name: "Tout" } },
+    ...filteredCategories,
+  ];
+  return {
+    ...data,
+    productCategories: {
+      edges: extendedCategories,
+    },
+  };
   return data;
 }
 
@@ -122,7 +148,8 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
       }
       blocks {
         content {
-          ${BLOCK_SECTION_IMAGE_TEXTE}
+          ${BLOCK_SECTION_TEXT}
+          ${BLOCK_SECTION_IMAGE_TEXT}
           ${BLOCK_RELATION_LISTS}
           ${BLOCK_FEATURES_LISTS}
         }

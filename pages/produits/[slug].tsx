@@ -1,80 +1,98 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
 import parse from "html-react-parser";
-
-
-
 import PageLoading from "../../components/pages/loading";
 import PageLayout from "../../components/layouts/page_layout";
-import { getAllCategoriesWithSlug, getCategory } from "../../lib/requests/categories/queries";
-import { getAllProductCategoriesWithSlug, getProductCategory } from "../../lib/requests/categories-product/queries";
+import { getAllProductCategoriesWithSlug, getCategoryProduct } from "../../lib/requests/category-product";
 import Breadcrumb from "../../components/elements/breadcrumb";
 import HeroCategories from "../../components/blocks/hero/hero_categories";
 import GridAside from "../../components/layouts/grid_aside";
 import Aside from "../../components/elements/aside";
-import GridProducts from "../../components/layouts/grid_products";
-import { getAllFilters } from "../../lib/requests/product/queries";
+import { getAllFilters } from "../../lib/requests/product";
+import { useProductCategory } from "../../components/hooks/useCategoryProduct";
+import SearchForm from "../../components/blocks/form/search-form";
+import ProductsGrid from "../../components/blocks/grid/grid-products";
 
 
 export default function Page({ filters, productCategory }) {
+  if (!productCategory) {
+    return <ErrorPage statusCode={404} />;
+  }
+  const {
+    products,
+    pageInfo,
+    loading,
+    searchTerm,
+    setSearchTerm,
+    handleSearch,
+    loadMoreProducts,
+    handleTagChange,
+  } = useProductCategory(productCategory);
+
   const router = useRouter();
   const fullHead = productCategory?.seo ? parse(productCategory.seo.fullHead) : null;
 
-  if (!router.isFallback && !productCategory?.slug) {
-    return <ErrorPage statusCode={404} />;
-  }
-
   return (
     <PageLayout preview={null}>
-
       {router.isFallback ? (
         <PageLoading>Loading…</PageLoading>
       ) : (
-
         <>
-          <Head>
-            {fullHead}
-          </Head>
+          <Head>{fullHead}</Head>
 
           <div className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
             <Breadcrumb />
-            <HeroCategories title={productCategory.name} description={productCategory.description} categories={filters.productCategories} />
-            <GridAside>
-              <Aside filters={filters} />
-              <GridProducts items={productCategory.products.nodes} />
-            </GridAside>
-          </div>
+            <HeroCategories
+              productCategory={productCategory}
+              categories={filters.productCategories}
+            />
 
+            <div className="my-4">
+              <SearchForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearch={handleSearch} />
+              <GridAside>
+                <Aside filters={filters} onTagChange={handleTagChange} />
+                <ProductsGrid
+                  products={products}
+                  pageInfo={pageInfo}
+                  loadMoreProducts={loadMoreProducts}
+                  loading={loading}
+                />
+              </GridAside>
+            </div>
+          </div>
         </>
       )}
-
     </PageLayout>
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}) => {
-  const data = await getProductCategory(params?.slug);
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const data = await getCategoryProduct(params?.slug, null, 12, null, null);
+  if (!data?.productCategory || data?.productCategory.slug === "produits") {
+    return {
+      notFound: true,
+    };
+  }
   const filters = await getAllFilters();
-  
   return {
     props: {
       productCategory: data.productCategory,
-      filters: filters
+      filters: filters,
     },
     revalidate: 10,
   };
 };
 
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const allCategories = await getAllProductCategoriesWithSlug();
-  console.log(allCategories)
+
   return {
-    paths: allCategories.edges.map(({ node }) => `/produits/${node.slug}`) || [],
+    paths: allCategories.edges.map(({ node }) => `/produits/${node.slug}`),
     fallback: true,
   };
 };

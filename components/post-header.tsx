@@ -26,7 +26,7 @@ export default function PostHeader({
         </div>
         <div className="mb-6 text-lg">
           Posted <Date dateString={date} />
-          <Categories categories={categories} />
+          <Categories categories={categories.edges} />
         </div>
       </div>
     </>

@@ -18,46 +18,28 @@ import {
 import { ChevronDownIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from 'react';
 
-const filters_static = [
-    {
-        id: 'color',
-        name: 'Color',
-        options: [
-            { value: 'white', label: 'White' },
-            { value: 'beige', label: 'Beige' },
-            { value: 'blue', label: 'Blue' },
-            { value: 'brown', label: 'Brown' },
-            { value: 'green', label: 'Green' },
-            { value: 'purple', label: 'Purple' },
-        ],
-    },
-    {
-        id: 'category',
-        name: 'Category',
-        options: [
-            { value: 'new-arrivals', label: 'All New Arrivals' },
-            { value: 'tees', label: 'Tees' },
-            { value: 'crewnecks', label: 'Crewnecks' },
-            { value: 'sweatshirts', label: 'Sweatshirts' },
-            { value: 'pants-shorts', label: 'Pants & Shorts' },
-        ],
-    },
-    {
-        id: 'sizes',
-        name: 'Sizes',
-        options: [
-            { value: 'xs', label: 'XS' },
-            { value: 's', label: 'S' },
-            { value: 'm', label: 'M' },
-            { value: 'l', label: 'L' },
-            { value: 'xl', label: 'XL' },
-            { value: '2xl', label: '2XL' },
-        ],
-    },
-]
 
-export default function Aside({ filters }) {
+export default function Aside({ filters, onTagChange }) {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+    const transformTagsToFilters = (data) => {
+        const parentTags = data.productTags.edges
+            .map(edge => edge.node)
+            .filter(node => node.children.edges.length > 0);
+
+        return parentTags.map(parent => ({
+            id: parent.slug,
+            name: parent.name,
+            options: parent.children.edges.map(child => ({
+                id: child.node.databaseId,
+                value: child.node.slug,
+                label: child.node.name,
+            }))
+        }));
+    };
+    const tags = transformTagsToFilters(filters)
+
+
 
     return (
         <>
@@ -103,8 +85,8 @@ export default function Aside({ filters }) {
                                     </legend>
                                     <DisclosurePanel className="px-4 pb-2 pt-4">
                                         <div className="space-y-6">
-                                            {filters.productTags.nodes.map((option, optionIdx) => (
-                                                <div key={option.value} className="flex items-center">
+                                            {/* {filters.productTags.nodes.map((option, optionIdx) => (
+                                                <div key={optionIdx} className="flex items-center">
                                                     <input
                                                         defaultValue={option.value}
                                                         id={`${optionIdx}-mobile`}
@@ -118,18 +100,17 @@ export default function Aside({ filters }) {
                                                         {option.label}
                                                     </label>
                                                 </div>
-                                            ))}
+                                            ))} */}
                                         </div>
                                     </DisclosurePanel>
                                 </fieldset>
                             </Disclosure>
-
-                            {filters_static.map((section) => (
-                                <Disclosure key={section.name} as="div" className="border-t border-gray-200 pb-4 pt-4">
+                            {tags.map((tagGroup) => (
+                                <Disclosure key={tagGroup.id} as="div" className="border-t border-gray-200 pb-4 pt-4">
                                     <fieldset>
                                         <legend className="w-full px-2">
                                             <DisclosureButton className="group flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
-                                                <span className="text-sm font-medium text-gray-900">{section.name}</span>
+                                                <span className="text-sm font-medium text-gray-900">{tagGroup.name}</span>
                                                 <span className="ml-6 flex h-7 items-center">
                                                     <ChevronDownIcon
                                                         aria-hidden="true"
@@ -140,17 +121,18 @@ export default function Aside({ filters }) {
                                         </legend>
                                         <DisclosurePanel className="px-4 pb-2 pt-4">
                                             <div className="space-y-6">
-                                                {section.options.map((option, optionIdx) => (
-                                                    <div key={option.value} className="flex items-center">
+                                                {tagGroup.options.map((option, optionIdx) => (
+                                                    <div key={optionIdx} className="flex items-center">
                                                         <input
-                                                            defaultValue={option.value}
-                                                            id={`${section.id}-${optionIdx}-mobile`}
-                                                            name={`${section.id}[]`}
+                                                            defaultValue={option.id}
+                                                            id={`${tagGroup.id}-${optionIdx}-mobile`}
+                                                            name={`${tagGroup.id}[]`}
                                                             type="checkbox"
                                                             className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                                            onChange={() => onTagChange(option.id)}
                                                         />
                                                         <label
-                                                            htmlFor={`${section.id}-${optionIdx}-mobile`}
+                                                            htmlFor={`${tagGroup.id}-${optionIdx}-mobile`}
                                                             className="ml-3 text-sm text-gray-500"
                                                         >
                                                             {option.label}
@@ -182,35 +164,12 @@ export default function Aside({ filters }) {
 
                 <div className="hidden lg:block">
                     <form className="space-y-10 divide-y divide-gray-200">
-                        {/* {filters.map((section, sectionIdx) => (
-                    <div key={section.name} className={sectionIdx === 0 ? null : 'pt-10'}>
-                      <fieldset>
-                        <legend className="block text-sm font-medium text-gray-900">{section.name}</legend>
-                        <div className="space-y-3 pt-6">
-                          {section.options.map((option, optionIdx) => (
-                            <div key={option.value} className="flex items-center">
-                              <input
-                                defaultValue={option.value}
-                                id={`${section.id}-${optionIdx}`}
-                                name={`${section.id}[]`}
-                                type="checkbox"
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                              />
-                              <label htmlFor={`${section.id}-${optionIdx}`} className="ml-3 text-sm text-gray-600">
-                                {option.label}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
-                      </fieldset>
-                    </div>
-                  ))} */}
                         <div key={"brand"}>
                             <fieldset>
                                 <legend className="block text-sm font-medium text-gray-900">Marques</legend>
-                                <div className="space-y-3 pt-6">
+                                <div className="space-y-3 pt-3">
                                     {filters.brands.nodes.map((option, optionIdx) => (
-                                        <div key={option.slug} className="flex items-center">
+                                        <div key={optionIdx} className="flex items-center">
                                             <input
                                                 defaultValue={option.slug}
                                                 id={`${option.id}-${optionIdx}`}
@@ -226,27 +185,26 @@ export default function Aside({ filters }) {
                                 </div>
                             </fieldset>
                         </div>
-                        <div key={"tags"} className="pt-10">
-                            <fieldset>
-                                <legend className="block text-sm font-medium text-gray-900">Filtres</legend>
-                                <div className="space-y-3 pt-6">
-                                    {filters.productTags.nodes.map((option, optionIdx) => (
-                                        <div key={option.slug} className="flex items-center">
-                                            <input
-                                                defaultValue={option.value}
-                                                id={`${option.id}-${optionIdx}`}
-                                                name={`${option.id}[]`}
-                                                type="checkbox"
-                                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                            />
-                                            <label htmlFor={`${option.id}-${optionIdx}`} className="ml-3 text-sm text-gray-600">
-                                                {option.name}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                            </fieldset>
-                        </div>
+                        {tags.map((tagGroup) => (
+                            <div key={tagGroup.id} className="space-y-3 pt-6">
+                                <h3 className="text-sm font-medium text-gray-900">{tagGroup.name}</h3>
+                                {tagGroup.options.map((option) => (
+                                    <div key={option.value} className="flex items-center">
+                                        <input
+                                            type="checkbox"
+                                            id={option.value}
+                                            // checked={selectedTags.includes(option.value)}
+                                            onChange={() => onTagChange(option.id)}
+                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                        />
+                                        <label htmlFor={option.value} className="ml-3 text-sm text-gray-500">
+                                            {option.label}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+
                     </form>
                 </div>
             </aside>

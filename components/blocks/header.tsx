@@ -258,7 +258,6 @@ export default function Example(menu) {
   }, [menu]);
   
 
-//   console.log(menuStructure)
   return (
     <div className="bg-white">
       {/* Mobile menu */}

@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getPreviewPost } from "../../lib/requests/post/queries";
-import { getPreviewProduct } from "../../lib/requests/product/queries";
-import { getPreviewPage } from "../../lib/requests/page/queries";
+import { getPreviewPost } from "../../lib/requests/post";
+import { getPreviewProduct } from "../../lib/requests/product";
+import { getPreviewPage } from "../../lib/requests/page";
 
 export default async function preview(
   req: NextApiRequest,
@@ -23,7 +23,7 @@ export default async function preview(
   let item;
   if (type === "post") {
     item = await getPreviewPost(id || slug, id ? "DATABASE_ID" : "SLUG");
-  } else if (type === "product") {
+  } else if (type === "produit") {
     item = await getPreviewProduct(id || slug, id ? "DATABASE_ID" : "SLUG");
   } else if (type === "page") {
     item = await getPreviewPage(id || slug, id ? "DATABASE_ID" : "SLUG");
