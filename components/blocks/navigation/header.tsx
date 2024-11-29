@@ -104,9 +104,9 @@ export default function Header(menu) {
                                                 </DisclosurePanel>
                                             </Disclosure>
                                         ) : (
-                                            <a key={item.node.id} href={item.node.uri} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                            <Link key={item.node.id} href={item.node.uri} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
                                                 {item.node.label}
-                                            </a>
+                                            </Link>
                                         )
                                     ))}
                                 </div>
@@ -202,40 +202,44 @@ export default function Header(menu) {
                                                                 transition
                                                                 className="absolute inset-x-0 top-full text-sm text-gray-500 p-4 pt-2 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
                                                             >
-                                                                {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-                                                                <div aria-hidden="true" className="absolute inset-0 top-1/2 shadow m-4 mt-2 rounded-xl" />
+                                                                {({ close }) => (
+                                                                    <>
+                                                                        {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
+                                                                        <div aria-hidden="true" className="absolute inset-0 top-1/2 shadow m-4 mt-2 rounded-xl" />
 
-                                                                <div className="relative bg-white/[.975] overflow-hidden rounded-xl border-solid border border-gray-200 ">
-                                                                    {/* <div className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"><div className="h-px w-full bg-gray-200 transition-colors duration-200 ease-out"></div></div> */}
-                                                                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                                                                        <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-8">
-                                                                            {category.children.map((item) => (
-                                                                                <div key={item.node.label} className="group relative">
-                                                                                    {item.node.datamenuitem.image && (
-                                                                                        <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
-                                                                                            <img
-                                                                                                alt={item.node.datamenuitem.image.node.altText}
-                                                                                                src={item.node.datamenuitem.image.node.sourceUrl}
-                                                                                                className="object-cover object-center"
-                                                                                            />
+                                                                        <div className="relative bg-white/[.975] overflow-hidden rounded-xl border-solid border border-gray-200 ">
+                                                                            {/* <div className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"><div className="h-px w-full bg-gray-200 transition-colors duration-200 ease-out"></div></div> */}
+                                                                            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                                                                                <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-8">
+                                                                                    {category.children.map((item) => (
+                                                                                        <div key={item.node.label} className="group relative">
+                                                                                            {item.node.datamenuitem.image && (
+                                                                                                <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
+                                                                                                    <img
+                                                                                                        alt={item.node.datamenuitem.image.node.altText}
+                                                                                                        src={item.node.datamenuitem.image.node.sourceUrl}
+                                                                                                        className="object-cover object-center"
+                                                                                                    />
+                                                                                                </div>
+                                                                                            )}
+                                                                                            <Link onClick={() => close()} href={item.node.uri} className="mt-4 block font-medium text-gray-900">
+                                                                                                <span aria-hidden="true" className="absolute inset-0 z-10" />
+                                                                                                {item.node.label}
+                                                                                            </Link>
+                                                                                            <p aria-hidden="true" className="mt-1">
+                                                                                                Shop now
+                                                                                            </p>
                                                                                         </div>
-                                                                                    )}
-                                                                                    <Link href={item.node.uri} className="mt-4 block font-medium text-gray-900">
-                                                                                        <span aria-hidden="true" className="absolute inset-0 z-10" />
-                                                                                        {item.node.label}
-                                                                                    </Link>
-                                                                                    <p aria-hidden="true" className="mt-1">
-                                                                                        Shop now
-                                                                                    </p>
+                                                                                    ))}
                                                                                 </div>
-                                                                            ))}
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
+                                                                    </>
+                                                                )}
                                                             </PopoverPanel>
                                                         </Popover>
                                                     ) : (
-                                                        <Link key={category.node.id} href={category.node.uri} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                                                        <Link onClick={() => close()} key={category.node.id} href={category.node.uri} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
                                                             {category.node.label}
                                                         </Link>
                                                     )
