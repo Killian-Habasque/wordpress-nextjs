@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import menuAdapter from "../../adapters/menuAdapter";
+import Link from "next/link";
 
 const footerNavigation = {
     products: [
@@ -62,9 +63,9 @@ export default function Footer(menu) {
                                     <ul role="list" className="mt-6 space-y-6">
                                         {parent.children.map((child) => (
                                             <li key={child.node.id} className="text-sm">
-                                                <a href={child.node.uri} className="text-gray-500 hover:text-gray-600">
+                                                <Link href={child.node.uri} className="text-gray-500 hover:text-gray-600">
                                                     {child.node.label}
-                                                </a>
+                                                </Link>
                                             </li>
                                         ))}
                                     </ul>

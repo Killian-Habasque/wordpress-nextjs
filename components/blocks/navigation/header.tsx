@@ -27,6 +27,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import menuAdapter from '../../adapters/menuAdapter';
+import Link from 'next/link';
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 
@@ -170,14 +171,14 @@ export default function Header(menu) {
                                 <div className="flex h-16 items-center justify-between">
                                     {/* Logo (lg+) */}
                                     <div className="hidden lg:flex lg:flex-1 lg:items-center">
-                                        <a href="/">
+                                        <Link href="/">
                                             <span className="sr-only">Siège ergonomique</span>
                                             <img
                                                 alt={menu.menu.datamenu.logo.node.altText}
                                                 src={menu.menu.datamenu.logo.node.sourceUrl}
                                                 className="max-h-7 w-auto"
                                             />
-                                        </a>
+                                        </Link>
                                     </div>
 
                                     <div className="hidden h-full lg:flex">
@@ -219,10 +220,10 @@ export default function Header(menu) {
                                                                                             />
                                                                                         </div>
                                                                                     )}
-                                                                                    <a href={item.node.uri} className="mt-4 block font-medium text-gray-900">
+                                                                                    <Link href={item.node.uri} className="mt-4 block font-medium text-gray-900">
                                                                                         <span aria-hidden="true" className="absolute inset-0 z-10" />
                                                                                         {item.node.label}
-                                                                                    </a>
+                                                                                    </Link>
                                                                                     <p aria-hidden="true" className="mt-1">
                                                                                         Shop now
                                                                                     </p>
@@ -234,9 +235,9 @@ export default function Header(menu) {
                                                             </PopoverPanel>
                                                         </Popover>
                                                     ) : (
-                                                        <a key={category.node.id} href={category.node.uri} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                                                        <Link key={category.node.id} href={category.node.uri} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
                                                             {category.node.label}
-                                                        </a>
+                                                        </Link>
                                                     )
                                                 ))}
                                             </div>
@@ -258,29 +259,29 @@ export default function Header(menu) {
                                     </div>
 
                                     {/* Logo (lg-) */}
-                                    <a href="#" className="lg:hidden">
+                                    <Link href="#" className="lg:hidden">
                                         <span className="sr-only">Siège ergonomique</span>
                                         <img
                                             alt={menu.menu.datamenu.logo.node.altText}
                                             src={menu.menu.datamenu.logo.node.sourceUrl}
                                             className="max-h-7 w-auto"
                                         />
-                                    </a>
+                                    </Link>
 
                                     <div className="flex flex-1 items-center justify-end">
-                                        <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+                                        <Link href="#" className="p-2 text-gray-400 hover:text-gray-500">
                                             <span className="sr-only">Help</span>
                                             <QuestionMarkCircleIcon aria-hidden="true" className="h-6 w-6" />
-                                        </a>
-                                        <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                                        </Link>
+                                        <Link href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
                                             <span className="sr-only">Search</span>
                                             <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" />
-                                        </a>
+                                        </Link>
 
                                         <div className="hidden items-center lg:ml-6 md:flex">
-                                            <a href="https://test" className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
+                                            <Link href="https://test" className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
                                                 Get started
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
