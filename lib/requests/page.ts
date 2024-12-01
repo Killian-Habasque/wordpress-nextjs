@@ -1,6 +1,6 @@
 
 import { fetchAPI } from "../fetchAPI";
-import { BLOCK_RELATION_LISTS, BLOCK_SECTION_IMAGE_TEXT, BLOCK_SECTION_TEXT } from "./block/fragments";
+import { BLOCK_FEATURES_LISTS, BLOCK_RELATION_LISTS, BLOCK_SECTION_IMAGE_TEXT, BLOCK_SECTION_TEXT } from "./block/fragments";
 
 export async function getAllPagesWithSlug() {
     const data = await fetchAPI(`
@@ -70,6 +70,7 @@ export async function getPage(slug, preview, previewData) {
             ${BLOCK_SECTION_TEXT}
             ${BLOCK_SECTION_IMAGE_TEXT}
             ${BLOCK_RELATION_LISTS}
+            ${BLOCK_FEATURES_LISTS}
           }
         }
       }

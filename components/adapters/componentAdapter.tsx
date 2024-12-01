@@ -10,7 +10,7 @@ export default function ComponentAdapter(props) {
         case 'BlocksContentSectionImageTexteLayout':
             return (<SectionImageText text={data.text} image={data.image} direction={data.direction} />)
         case 'BlocksContentRelationListsLayout':
-            return (<RelationLists text={data.text} postypes={data.postType.nodes} />)
+            return (<RelationLists text={data.text} postypes={data.postType?.nodes} />)
         case 'BlocksContentFeaturesListsLayout':
             return (<ListFeatures text={data.text} listImage={data.listImage} listText={data.listText} direction={data.direction} />)
         case 'BlocksContentSectionTextLayout':
