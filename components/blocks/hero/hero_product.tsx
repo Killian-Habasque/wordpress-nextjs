@@ -16,8 +16,9 @@ import {
     PlusIcon,
 } from '@heroicons/react/24/outline'
 
-import { StarIcon } from '@heroicons/react/20/solid'
+import { ArrowUturnUpIcon, StarIcon } from '@heroicons/react/20/solid'
 import Categories from '../../elements/categories'
+import Image from 'next/image'
 
 
 
@@ -43,7 +44,8 @@ export default function HeroProduct({ title, categories, productInfo }) {
                                     >
                                         <span className="sr-only">{image.altText}</span>
                                         <span className="absolute inset-0 overflow-hidden rounded-md">
-                                            <img alt={image.altText} src={image.sourceUrl} className="h-full w-full object-cover object-center" />
+                                            
+                                            <Image width={130} height={96} alt={image.altText} src={image.sourceUrl} className="h-full w-full object-cover object-center" />
                                         </span>
                                         <span
                                             aria-hidden="true"
@@ -57,7 +59,9 @@ export default function HeroProduct({ title, categories, productInfo }) {
                         <TabPanels className="aspect-h-1 aspect-w-1 w-full">
                             {productInfo.gallery?.nodes.map((image) => (
                                 <TabPanel key={image.id}>
-                                    <img
+                                    <Image
+                                        width={592} 
+                                        height={592}
                                         alt={image.altText}
                                         src={image.sourceUrl}
                                         className="h-full w-full object-cover object-center sm:rounded-lg"
@@ -116,9 +120,13 @@ export default function HeroProduct({ title, categories, productInfo }) {
                                 <a
                                     href={productInfo.link}
                                     target='_blank'
-                                    className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
+                                    className="flex max-w-xs flex-1 items-center justify-center rounded-md border gap-2 border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
                                 >
-                                    Add to bag
+                                    Consulter le produit
+                                    <ArrowUturnUpIcon
+                                        aria-hidden="true"
+                                        className="block h-4 w-4"
+                                    />
                                 </a>
                             </div>
                         )}

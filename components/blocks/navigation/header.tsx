@@ -230,6 +230,14 @@ export default function Header(menu) {
                                                                                                 Shop now
                                                                                             </p>
                                                                                         </div>
+                                                                                    )}
+                                                                                    <a href={item.node.uri} className="mt-4 block font-medium text-gray-900">
+                                                                                        <span aria-hidden="true" className="absolute inset-0 z-10" />
+                                                                                        {item.node.label}
+                                                                                    </a>
+                                                                                    <p aria-hidden="true" className="mt-1">
+                                                                                        Consulter
+                                                                                    </p>
                                                                                     ))}
                                                                                 </div>
                                                                             </div>

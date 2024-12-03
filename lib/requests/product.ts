@@ -177,6 +177,7 @@ export async function getProductAndMoreProducts(slug, preview, previewData) {
         edges {
           node {
             name
+            slug
           }
         }
       }
