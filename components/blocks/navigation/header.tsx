@@ -27,6 +27,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import menuAdapter from '../../adapters/menuAdapter';
+import Link from 'next/link';
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 
@@ -103,9 +104,9 @@ export default function Header(menu) {
                                                 </DisclosurePanel>
                                             </Disclosure>
                                         ) : (
-                                            <a key={item.node.id} href={item.node.uri} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                            <Link key={item.node.id} href={item.node.uri} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
                                                 {item.node.label}
-                                            </a>
+                                            </Link>
                                         )
                                     ))}
                                 </div>
@@ -170,14 +171,14 @@ export default function Header(menu) {
                                 <div className="flex h-16 items-center justify-between">
                                     {/* Logo (lg+) */}
                                     <div className="hidden lg:flex lg:flex-1 lg:items-center">
-                                        <a href="/">
+                                        <Link href="/">
                                             <span className="sr-only">Siège ergonomique</span>
                                             <img
                                                 alt={menu.menu.datamenu.logo.node.altText}
                                                 src={menu.menu.datamenu.logo.node.sourceUrl}
                                                 className="max-h-7 w-auto"
                                             />
-                                        </a>
+                                        </Link>
                                     </div>
 
                                     <div className="hidden h-full lg:flex">
@@ -201,22 +202,33 @@ export default function Header(menu) {
                                                                 transition
                                                                 className="absolute inset-x-0 top-full text-sm text-gray-500 p-4 pt-2 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
                                                             >
-                                                                {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-                                                                <div aria-hidden="true" className="absolute inset-0 top-1/2 shadow m-4 mt-2 rounded-xl" />
+                                                                {({ close }) => (
+                                                                    <>
+                                                                        {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
+                                                                        <div aria-hidden="true" className="absolute inset-0 top-1/2 shadow m-4 mt-2 rounded-xl" />
 
-                                                                <div className="relative bg-white/[.975] overflow-hidden rounded-xl border-solid border border-gray-200 ">
-                                                                    {/* <div className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"><div className="h-px w-full bg-gray-200 transition-colors duration-200 ease-out"></div></div> */}
-                                                                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                                                                        <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-8">
-                                                                            {category.children.map((item) => (
-                                                                                <div key={item.node.label} className="group relative">
-                                                                                    {item.node.datamenuitem.image && (
-                                                                                        <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
-                                                                                            <img
-                                                                                                alt={item.node.datamenuitem.image.node.altText}
-                                                                                                src={item.node.datamenuitem.image.node.sourceUrl}
-                                                                                                className="object-cover object-center"
-                                                                                            />
+                                                                        <div className="relative bg-white/[.975] overflow-hidden rounded-xl border-solid border border-gray-200 ">
+                                                                            {/* <div className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"><div className="h-px w-full bg-gray-200 transition-colors duration-200 ease-out"></div></div> */}
+                                                                            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                                                                                <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-8">
+                                                                                    {category.children.map((item) => (
+                                                                                        <div key={item.node.label} className="group relative">
+                                                                                            {item.node.datamenuitem.image && (
+                                                                                                <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
+                                                                                                    <img
+                                                                                                        alt={item.node.datamenuitem.image.node.altText}
+                                                                                                        src={item.node.datamenuitem.image.node.sourceUrl}
+                                                                                                        className="object-cover object-center"
+                                                                                                    />
+                                                                                                </div>
+                                                                                            )}
+                                                                                            <Link onClick={() => close()} href={item.node.uri} className="mt-4 block font-medium text-gray-900">
+                                                                                                <span aria-hidden="true" className="absolute inset-0 z-10" />
+                                                                                                {item.node.label}
+                                                                                            </Link>
+                                                                                            <p aria-hidden="true" className="mt-1">
+                                                                                                Shop now
+                                                                                            </p>
                                                                                         </div>
                                                                                     )}
                                                                                     <a href={item.node.uri} className="mt-4 block font-medium text-gray-900">
@@ -226,17 +238,18 @@ export default function Header(menu) {
                                                                                     <p aria-hidden="true" className="mt-1">
                                                                                         Consulter
                                                                                     </p>
+                                                                                    ))}
                                                                                 </div>
-                                                                            ))}
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
+                                                                    </>
+                                                                )}
                                                             </PopoverPanel>
                                                         </Popover>
                                                     ) : (
-                                                        <a key={category.node.id} href={category.node.uri} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                                                        <Link onClick={() => close()} key={category.node.id} href={category.node.uri} className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
                                                             {category.node.label}
-                                                        </a>
+                                                        </Link>
                                                     )
                                                 ))}
                                             </div>
@@ -258,29 +271,29 @@ export default function Header(menu) {
                                     </div>
 
                                     {/* Logo (lg-) */}
-                                    <a href="#" className="lg:hidden">
+                                    <Link href="#" className="lg:hidden">
                                         <span className="sr-only">Siège ergonomique</span>
                                         <img
                                             alt={menu.menu.datamenu.logo.node.altText}
                                             src={menu.menu.datamenu.logo.node.sourceUrl}
                                             className="max-h-7 w-auto"
                                         />
-                                    </a>
+                                    </Link>
 
                                     <div className="flex flex-1 items-center justify-end">
-                                        <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+                                        <Link href="#" className="p-2 text-gray-400 hover:text-gray-500">
                                             <span className="sr-only">Help</span>
                                             <QuestionMarkCircleIcon aria-hidden="true" className="h-6 w-6" />
-                                        </a>
-                                        <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                                        </Link>
+                                        <Link href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
                                             <span className="sr-only">Search</span>
                                             <MagnifyingGlassIcon aria-hidden="true" className="h-6 w-6" />
-                                        </a>
+                                        </Link>
 
                                         <div className="hidden items-center lg:ml-6 md:flex">
-                                            <a href="https://test" className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
+                                            <Link href="https://test" className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
                                                 Get started
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>

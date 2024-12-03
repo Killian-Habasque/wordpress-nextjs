@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import menuAdapter from "../../adapters/menuAdapter";
 import Link from "next/link";
 
+
 export default function Footer(menu) {
     const [menuStructure, setMenuStructure] = useState([]);
 
