@@ -224,7 +224,7 @@ export default function Header(menu) {
                                                                                         {item.node.label}
                                                                                     </a>
                                                                                     <p aria-hidden="true" className="mt-1">
-                                                                                        Shop now
+                                                                                        Consulter
                                                                                     </p>
                                                                                 </div>
                                                                             ))}

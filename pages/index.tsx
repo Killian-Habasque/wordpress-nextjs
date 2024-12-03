@@ -31,7 +31,7 @@ export const getStaticProps: GetStaticProps = async ({
   preview = false,
   previewData,
 }) => {
-  const data = await getPage('homepage', preview, previewData);
+  const data = await getPage('accueil', preview, previewData);
 
   return {
     props: {

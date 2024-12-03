@@ -32,11 +32,17 @@ module.exports = {
         pathname: '/avatar/**',
       },
       {
-        protocol: 'http',
-        hostname: 'test-graphql-old.local',
+        protocol: 'https',
+        hostname: 'siege-ergonomique.nexus-corp.fr',
         port: '',
         pathname: '/wp-content/uploads/**',
       },
+      // {
+      //   protocol: 'http',
+      //   hostname: 'test-graphql-old.local',
+      //   port: '',
+      //   pathname: '/wp-content/uploads/**',
+      // },
     ],
   },
 };
