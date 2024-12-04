@@ -70,7 +70,7 @@ export default function Aside({ filters, onTagChange }) {
                         {/* Filters */}
                         <form className="mt-4">
 
-                            <Disclosure as="div" className="border-t border-gray-200 pb-4 pt-4">
+                            {/* <Disclosure as="div" className="border-t border-gray-200 pb-4 pt-4">
                                 <fieldset>
                                     <legend className="w-full px-2">
                                         <DisclosureButton className="group flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
@@ -85,7 +85,7 @@ export default function Aside({ filters, onTagChange }) {
                                     </legend>
                                     <DisclosurePanel className="px-4 pb-2 pt-4">
                                         <div className="space-y-6">
-                                            {/* {filters.productTags.nodes.map((option, optionIdx) => (
+                                            {filters.productTags.nodes.map((option, optionIdx) => (
                                                 <div key={optionIdx} className="flex items-center">
                                                     <input
                                                         defaultValue={option.value}
@@ -100,11 +100,11 @@ export default function Aside({ filters, onTagChange }) {
                                                         {option.label}
                                                     </label>
                                                 </div>
-                                            ))} */}
+                                            ))}
                                         </div>
                                     </DisclosurePanel>
                                 </fieldset>
-                            </Disclosure>
+                            </Disclosure> */}
                             {tags.map((tagGroup) => (
                                 <Disclosure key={tagGroup.id} as="div" className="border-t border-gray-200 pb-4 pt-4">
                                     <fieldset>
@@ -164,7 +164,7 @@ export default function Aside({ filters, onTagChange }) {
 
                 <div className="hidden lg:block">
                     <form className="space-y-10 divide-y divide-gray-200">
-                        <div key={"brand"}>
+                        {/* <div key={"brand"}>
                             <fieldset>
                                 <legend className="block text-sm font-medium text-gray-900">Marques</legend>
                                 <div className="space-y-3 pt-3">
@@ -184,7 +184,7 @@ export default function Aside({ filters, onTagChange }) {
                                     ))}
                                 </div>
                             </fieldset>
-                        </div>
+                        </div> */}
                         {tags.map((tagGroup) => (
                             <div key={tagGroup.id} className="space-y-3 pt-6">
                                 <h3 className="text-sm font-medium text-gray-900">{tagGroup.name}</h3>

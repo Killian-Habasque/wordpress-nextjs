@@ -21,6 +21,12 @@ export default function Page({ filters, productCategory }) {
   if (!productCategory) {
     return <ErrorPage statusCode={404} />;
   }
+  const breadcrumbs = [
+    { id: 1, name: 'Accueil', href: '/' },
+    { id: 2, name: 'Produits', href: '/produits' },
+    { id: 3, name: productCategory.name, href: `/produits/${productCategory.slug}` }
+  ];
+
   const {
     products,
     pageInfo,
@@ -43,8 +49,9 @@ export default function Page({ filters, productCategory }) {
         <>
           <Head>{fullHead}</Head>
 
-          <div className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
-            <Breadcrumb />
+          <div className="mx-auto max-w-2xl px-4 pt-24 lg:max-w-7xl lg:px-8">
+            <Breadcrumb breadcrumbs={breadcrumbs} />
+
             <HeroCategories
               productCategory={productCategory}
               categories={filters.productCategories}

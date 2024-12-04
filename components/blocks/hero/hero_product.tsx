@@ -16,9 +16,10 @@ import {
     PlusIcon,
 } from '@heroicons/react/24/outline'
 
-import { ArrowUturnUpIcon, StarIcon } from '@heroicons/react/20/solid'
+import { StarIcon } from '@heroicons/react/20/solid'
 import Categories from '../../elements/categories'
 import Image from 'next/image'
+import Breadcrumb from '../../elements/breadcrumb'
 
 
 
@@ -28,6 +29,11 @@ function classNames(...classes) {
 
 export default function HeroProduct({ title, categories, productInfo }) {
 
+    const breadcrumbs = [
+        { id: 1, name: 'Accueil', href: '/' },
+        { id: 2, name: 'Produits', href: '/produits' },
+        { id: 3, name: title, href: "" }
+    ];
     return (
         <section className="block hero_bg_image">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -44,7 +50,7 @@ export default function HeroProduct({ title, categories, productInfo }) {
                                     >
                                         <span className="sr-only">{image.altText}</span>
                                         <span className="absolute inset-0 overflow-hidden rounded-md">
-                                            
+
                                             <Image width={130} height={96} alt={image.altText} src={image.sourceUrl} className="h-full w-full object-cover object-center" />
                                         </span>
                                         <span
@@ -60,7 +66,7 @@ export default function HeroProduct({ title, categories, productInfo }) {
                             {productInfo.gallery?.nodes.map((image) => (
                                 <TabPanel key={image.id}>
                                     <Image
-                                        width={592} 
+                                        width={592}
                                         height={592}
                                         alt={image.altText}
                                         src={image.sourceUrl}
@@ -73,7 +79,9 @@ export default function HeroProduct({ title, categories, productInfo }) {
 
                     {/* Product info */}
                     <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+                        <Breadcrumb breadcrumbs={breadcrumbs} />
                         <h1 className="text-6xl font-bold tracking-tight text-gray-900 mb-6 mt-6 leading-none">{title}</h1>
+
                         {categories && (
                             <Categories categories={categories.edges} />
                         )}
@@ -120,13 +128,11 @@ export default function HeroProduct({ title, categories, productInfo }) {
                                 <a
                                     href={productInfo.link}
                                     target='_blank'
+                                    rel="nofollow"
                                     className="flex max-w-xs flex-1 items-center justify-center rounded-md border gap-2 border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
                                 >
                                     Consulter le produit
-                                    <ArrowUturnUpIcon
-                                        aria-hidden="true"
-                                        className="block h-4 w-4"
-                                    />
+                                    <span aria-hidden="true">→</span>
                                 </a>
                             </div>
                         )}

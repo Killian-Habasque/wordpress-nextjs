@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function HeroBackgroundImage({ title, description, link, featuredImage }) {
     const defaultImageUrl = '/images/default-image.png';
     return (
@@ -28,14 +30,14 @@ export default function HeroBackgroundImage({ title, description, link, featured
                         {description}
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
-                        <a
+                        <Link
                             href={link}
                             className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
                         >
-                            Get started
-                        </a>
+                            Consulter les produits
+                        </Link>
                         <a href="#read-more" className="text-sm font-semibold leading-6 text-white">
-                            Learn more <span aria-hidden="true">→</span>
+                            Voir plus <span aria-hidden="true">→</span>
                         </a>
                     </div>
                     {/* <a href={link}
