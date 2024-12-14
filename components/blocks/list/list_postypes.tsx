@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ListPostypes({ text, postypes }) {
     const defaultImageUrl = '/images/default-image.png';
     return (
@@ -18,10 +20,10 @@ export default function ListPostypes({ text, postypes }) {
                             <div className="mt-4 flex justify-between">
                                 <div>
                                     <h3 className="text-sm text-gray-700">
-                                        <a href={`${contentTypeName}/${slug}`}>
+                                        <Link href={`/${contentTypeName}/${slug}`}>
                                             <span aria-hidden="true" className="absolute inset-0" />
                                             {title}
-                                        </a>
+                                        </Link>
                                     </h3>
                                 </div>
                             </div>
