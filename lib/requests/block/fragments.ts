@@ -12,6 +12,17 @@ export const BLOCK_SECTION_IMAGE_TEXT = `
   }
 `;
 
+export const BLOCK_SECTION_ACCORDION = `
+  ... on BlocksContentSectionAccordionLayout {
+    __typename
+    text
+    accordion {
+      text
+      label
+    }
+  }
+`;
+
 export const BLOCK_SECTION_TEXT = `
   ... on BlocksContentSectionTextLayout {
     __typename

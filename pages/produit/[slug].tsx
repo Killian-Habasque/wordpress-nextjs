@@ -18,6 +18,10 @@ import HeroProduct from "../../components/blocks/hero/hero_product";
 import parse from "html-react-parser";
 import PageLoading from "../../components/pages/loading";
 import PageLayout from "../../components/layouts/page_layout";
+import ProductReviews from "../../components/ProductReviews";
+import ProductComparison from "../../components/ProductComparison";
+import ProductShowcase from "../../components/ProductShowcase";
+import ProductFeatures from "../../components/ProductFeatures";
 
 
 export default function Product({ product, moreProducts, preview }) {
@@ -52,7 +56,9 @@ export default function Product({ product, moreProducts, preview }) {
             {/* <SectionSeparator /> */}
             {/* {moreProducts.length > 0 && <MoreStories posts={moreProducts} />} */}
           </div>
-
+          {/* <ProductReviews />
+          <ProductComparison />
+          <ProductFeatures />  */}
         </>
       )}
 
