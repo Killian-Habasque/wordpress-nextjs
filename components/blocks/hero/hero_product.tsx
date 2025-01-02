@@ -86,7 +86,7 @@ export default function HeroProduct({ title, categories, productInfo }) {
                             <Categories categories={categories.edges} />
                         )}
                         {productInfo.price && (
-                            <div className="mt-3">
+                            <div className="mt-3 hidden">
                                 <h2 className="sr-only">Product information</h2>
                                 <p className="text-3xl tracking-tight text-gray-900">{productInfo.price} €</p>
                             </div>
